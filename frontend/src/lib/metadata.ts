@@ -12,7 +12,6 @@ export const defaultMetdata: Metadata = {
     keywords: ["weather", ""],
     robots: { index: true, follow: true},
     viewport: { width: "device-width", initialScale: 1},
-    themeColor: "#000000"
 }
 
 export function pageMetadata(
