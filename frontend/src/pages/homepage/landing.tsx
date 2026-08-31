@@ -41,7 +41,7 @@ export default async function Landing() {
               href={"/"}
             >
             <Image 
-                src={"/globe.svg"}
+                src={"/images/logo1.jpeg"}
                 alt="Earth Forward logo"
                 width={50}
                 height={50}
