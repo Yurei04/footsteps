@@ -52,12 +52,12 @@ export default function InfoHomeCard({ data }: InfoCardDataProps) {
   return (
     <div className="w-full">
       {data.map((card) => (
-        <Card key={card.id} className="p-4 bg-emerald-100/90">
+        <Card key={card.id} className="p-8 bg-[#FFF9F9]">
             
-          <div className="grid grid-cols-[2fr_.9fr] gap-2 justify-between">
+          <div className="grid grid-cols-[2fr_.9fr] gap-2 justify-between mb-4">
             <div className="flex flex-col gap-2">
-                <CardHeader className="flex text-black/50 text-xl p-0 tracking-widest"> LIVE <Dot/> {card.location} </CardHeader>
-                <CardTitle className="text-4xl">{card.title}</CardTitle>
+                <CardHeader className="flex text-black/50 text-md p-0 tracking-widest"> LIVE <Dot/> {card.location} </CardHeader>
+                <CardTitle className="text-2xl">{card.title}</CardTitle>
                 <CardDescription>{card.description}</CardDescription>
             </div>
             <div className="flex justify-end ">
@@ -70,9 +70,9 @@ export default function InfoHomeCard({ data }: InfoCardDataProps) {
             </div>
           </div>
 
-          <Separator className="border border-black/20" />
+          <Separator className="border border-black/10" />
 
-          <div className="flex justify-between gap-2 px-4">
+          <div className="flex justify-between gap-2 ">
             <p>
               Suggestion Response  
             </p>

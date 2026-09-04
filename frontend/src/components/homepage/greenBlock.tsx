@@ -24,7 +24,7 @@ export default function GreenBlock() {
   }, [])
 
   return (
-    <div className="flex flex-col rounded-4xl border w-[600px] h-[500px] justify-end p-16 m-4 bg-emerald-900/30 drop-shadow-xl">
+    <div className="flex flex-col rounded-4xl border w-[80%] h-[500px] justify-end p-16 m-4 bg-[#D5FAD6]">
       <InfoHomeCard data={cardDataList} />
     </div>
   )
