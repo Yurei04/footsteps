@@ -4,7 +4,13 @@ import { useState, useMemo } from "react"
 import { Search } from "lucide-react"
 import NewsFeedCard from "@/components/newsFeed/newsFeedCard"
 import UpperNav from "@/components/dashboard/upperNav"
-import { Separator } from "@/components/ui/separator"
+import { pageMetadata } from "@/lib/metadata"
+
+export const metadata = pageMetadata(
+  "News and insights",
+  "National and local signals matched to active conditions. Curated public reports are matched against active environmental conditions, <br/> so the response team sees what data alone cannot explain. ",
+  ["news", "information", "earth"]
+)
 
 interface NewsItem {
     id: string

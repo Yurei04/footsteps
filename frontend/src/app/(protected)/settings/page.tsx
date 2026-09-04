@@ -3,7 +3,6 @@
 import UpperNav from "@/components/dashboard/upperNav"
 
 export default function Settings() {
-    
     return (
         <div className="w-full">
             <UpperNav />

@@ -2,6 +2,13 @@
 import UpperNav from "@/components/dashboard/upperNav"
 import EventTimeline from "@/components/monitoring/eventTimeline"
 import EventProgress from "@/components/monitoring/eventsProgress"
+import { pageMetadata } from "@/lib/metadata"
+
+export const metadata = pageMetadata(
+  "Monitoring Hub Stay ahead of change",
+  "The system reassesses each risk as new observations arrive, updating confidence and recommended actions in real time. ",
+  ["news", "pollution", "earth"]
+)
 
 export default function Monitoring() {
     return (

@@ -1,5 +1,13 @@
 import UpperNav from "@/components/dashboard/upperNav"
 import ResourceCard from "@/components/resources/resourceCard"
+import { pageMetadata } from "@/lib/metadata"
+
+export const metadata = pageMetadata(
+  "Reference materials",
+  "Protocols, frameworks, and technical references for field teams and system operators.",
+  ["references", "pollution", "earth"]
+)
+
 
 interface ResourceData {
     id: string
@@ -53,9 +61,9 @@ export default function Resources() {
             <UpperNav />
 
             <div className="flex-col p-4 pl-8 mb-4 justify-between">
-                <h2 className=" font-thin text-md text-[var(--text-muted)]"> NEWS & INSIGHTS </h2>
-                <h1 className="text-4xl text-black "> The local story, live. </h1>
-                <p className="line-clamp-3"> National and local signals matched to active conditions. Curated public reports are matched against active environmental conditions, <br/> so the response team sees what data alone cannot explain. </p>
+                <h2 className=" font-thin text-md text-[var(--text-muted)]"> RESOURCES </h2>
+                <h1 className="text-4xl text-black "> Reference materials. </h1>
+                <p className="line-clamp-3"> Protocols, frameworks, and technical references for field teams and system operators.</p>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4 contain-content content-visibility-auto">
