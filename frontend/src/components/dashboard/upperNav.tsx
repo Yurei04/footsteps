@@ -4,10 +4,10 @@ import Image from "next/image";
 
 export default function UpperNav() {
   return (
-    <header className="w-full flex items-center justify-between px-8 py-4 border-slate-800 h-16">
+    <header className="w-full flex items-center justify-between px-8 py-4 mb-8 border-b border-slate-800 h-16">
       <div className="flex items-center gap-4">
         <SidebarTrigger />
-        <h1 className="text-lg font-semibold text-white">Dashboard</h1>
+        <h1 className="text-lg font-semibold text-black">Dashboard</h1>
       </div>
 
       <nav className="flex items-center gap-6">

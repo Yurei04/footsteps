@@ -49,7 +49,7 @@ const places = [
 
 export default function RiskWholeMap () {
     return (
-        <div className="h-[400px] w-[900px] p-4">
+        <div className="h-[400px] w-full">
             <Map center={[2.3522, 48.8566]} zoom={10}>
                 <MapControls
                 position="top-right"
