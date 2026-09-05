@@ -1,8 +1,9 @@
 import UpperNav from "@/components/dashboard/upperNav"
 import ResourceFeedComp from "@/components/resources/resourceFeedComp"
 import { pageMetadata } from "@/lib/metadata"
+import { Metadata } from "next"
 
-export const metadata = pageMetadata(
+export const metadata: Metadata = pageMetadata(
   "Reference materials",
   "Protocols, frameworks, and technical references for field teams and system operators.",
   ["references", "pollution", "earth"]

@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { defaultMetdata } from "@/lib/metadata";
+import { Metadata } from "next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,7 @@ const astaFont = localFont({
   variable: "--font-asta",
 });
 
-export const metadata = defaultMetdata
+export const metadata: Metadata = defaultMetdata
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

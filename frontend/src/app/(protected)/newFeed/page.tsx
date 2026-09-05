@@ -1,8 +1,9 @@
 import NewsFeedComp from "@/components/newsFeed/newsFeedComp"
 import UpperNav from "@/components/dashboard/upperNav"
 import { pageMetadata } from "@/lib/metadata"
+import { Metadata } from "next"
 
-export const metadata = pageMetadata(
+export const metadata: Metadata = pageMetadata(
   "News and insights",
   " National and local signals matched to active conditions. Curated public reports are matched against active environmental conditions.",
   ["news", "pollution", "earth"]

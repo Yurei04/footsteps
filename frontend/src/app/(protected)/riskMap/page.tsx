@@ -4,12 +4,13 @@ import MapRefresh from "@/components/riskMap/mapRefresh";
 import { Card } from "@/components/ui/card";
 import { pageMetadata } from "@/lib/metadata";
 import { Separator } from "@base-ui/react";
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
 const DynamicMap = dynamic(() => import("@/components/riskMap/riskCompMap"));
 
-export const metadata = pageMetadata(
+export const metadata: Metadata = pageMetadata(
   "Risk Map",
   "Risk hotspots combine forecast intensity, ground saturation, exposure, and documented historical impacts.",
   ["risks", "map", "earth"]
