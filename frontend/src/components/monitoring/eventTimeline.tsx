@@ -1,4 +1,3 @@
-// components/EventTimeline.tsx
 "use client"
 
 import { useState, useEffect } from "react"
@@ -22,88 +21,28 @@ interface Event {
     details: string
 }
 
-const initialEvents: Event[] = [
-    {
-        id: "1",
-        title: "Rainfall threshold crossed",
-        time: "08:42",
-        status: "High",
-        severity: "High",
-        timestamp: Date.now(),
-        description: "Rainfall monitoring alert",
-        details: "Rainfall has exceeded safe threshold levels in monitoring zone. Action required for population alert.",
-    },
-    {
-        id: "2",
-        title: "Doppler radar validates intensity",
-        time: "08:37",
-        status: "Verified",
-        severity: "Verified",
-        timestamp: Date.now() - 300000,
-        description: "Radar validation complete",
-        details: "Doppler radar systems have verified the intensity of rainfall patterns across the region.",
-    },
-    {
-        id: "3",
-        title: "River level +12 cm in 30 min",
-        time: "08:18",
-        status: "Watch",
-        severity: "Watch",
-        timestamp: Date.now() - 1440000,
-        description: "River level monitoring alert",
-        details: "River levels have risen 12 cm within a 30-minute window. Close monitoring recommended.",
-    },
-    {
-        id: "4",
-        title: "AI action plan refreshed",
-        time: "07:59",
-        status: "Ready",
-        severity: "Ready",
-        timestamp: Date.now() - 2700000,
-        description: "System status update",
-        details: "AI-generated action plan has been updated based on latest environmental data.",
-    },
-]
-
 export default function EventTimeline() {
-    const [events, setEvents] = useState<Event[]>(initialEvents)
+    const [events, setEvents] = useState<Event[]>([])
     const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-    // Auto-update: Remove events older than 24 hours
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setEvents((prevEvents) => {
-                const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000
-                const filtered = prevEvents.filter(
-                    (event) => event.timestamp > twentyFourHoursAgo
-                )
-                return filtered.length > 0 ? filtered : initialEvents
-            })
-        }, 60000) // Check every minute
-
-        return () => clearInterval(interval)
-    }, [])
-
-    // Real data fetching function (ready to use)
+    // Fetch events on mount and set up polling
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const res = await fetch("/api/events")
+                const res = await fetch("/api/eventTimeline")
                 const data = await res.json()
                 setEvents(data)
             } catch (error) {
                 console.error("Failed to fetch events:", error)
-                // Keep using fake data
             }
         }
 
-        // Uncomment to fetch from API
-        // fetchEvents()
+        fetchEvents()
 
-        // Optional: Polling every 30 seconds
-        // const interval = setInterval(fetchEvents, 30000)
-        // return () => clearInterval(interval)
+        // Poll every 30 seconds for new events
+        const interval = setInterval(fetchEvents, 30000)
+        return () => clearInterval(interval)
     }, [])
 
     const handleEventClick = (event: Event) => {
