@@ -14,29 +14,26 @@ interface Hotspot {
 }
 
 export default function HotSpotDetails() {
-    const [data, setData] = useState<Hotspot[]>([])
+    const [hotspot, setHotSpots] = useState<Hotspot[]>([])
 
     useEffect(() => {
-        // Fetch or initialize your data here
-        const hotspots: Hotspot[] = [
-            {
-                id: "1",
-                location: "Marikina River Basin",
-                rating: 85,
-                riskType: "High Risk",
-                time: 2024,
-                rainfallTrigger: 120,
-                groundSaturation: 75,
-                populationExposure: 2500000,
-            },
-        ]
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setData(hotspots)
+         const fetchHotspots = async () => {
+            try {
+                console.log("Fetching data...")
+                const res = await fetch("/api/risk")
+                const data = await res.json()
+                console.log("Fetched data:", data)
+                setHotSpots(data)
+            } catch (error) {
+                console.error("Failed to fetch data:", error)
+            }
+        }
+        fetchHotspots()
     }, [])
 
     return (
         <div className="p-4">
-            {data.map((hotspot) => (
+            {hotspot.map((hotspot) => (
                 <div 
                     key={hotspot.id} 
                     className=""

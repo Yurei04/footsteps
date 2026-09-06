@@ -1,20 +1,13 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu"
 import { ChevronDown, Plus, User2, LayoutDashboard, Map, FileText, Brain, Eye, Lightbulb, Target, BookOpen, Settings, SidebarIcon } from "lucide-react"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "../ui/collapsible"
 import Image from "next/image"
 
 interface DashboardLink {
@@ -24,7 +17,7 @@ interface DashboardLink {
 }
 
 const dashboardLinks: DashboardLink[] = [
-  { title: "Dashboard", link: "/", icon: <LayoutDashboard className="w-4 h-4" /> },
+  { title: "Dashboard", link: "/riskMap", icon: <LayoutDashboard className="w-4 h-4" /> },
   { title: "Risk Map", link: "/riskMap", icon: <Map className="w-4 h-4" /> },
   { title: "Report", link: "/report", icon: <FileText className="w-4 h-4" /> },
   { title: "AI Agent", link: "/ai-agent", icon: <Brain className="w-4 h-4" /> },
