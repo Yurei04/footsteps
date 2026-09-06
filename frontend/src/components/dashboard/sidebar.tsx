@@ -19,11 +19,11 @@ interface DashboardLink {
 const dashboardLinks: DashboardLink[] = [
   { title: "Dashboard", link: "/riskMap", icon: <LayoutDashboard className="w-4 h-4" /> },
   { title: "Risk Map", link: "/riskMap", icon: <Map className="w-4 h-4" /> },
-  { title: "Report", link: "/report", icon: <FileText className="w-4 h-4" /> },
-  { title: "AI Agent", link: "/ai-agent", icon: <Brain className="w-4 h-4" /> },
+  { title: "Report", link: "/reports", icon: <FileText className="w-4 h-4" /> },
+  { title: "AI Agent", link: "/aiAgent", icon: <Brain className="w-4 h-4" /> },
   { title: "Monitoring", link: "/monitoring", icon: <Eye className="w-4 h-4" /> },
   { title: "News & Insights", link: "/newFeed", icon: <Lightbulb className="w-4 h-4" /> },
-  { title: "Impact Tracker", link: "/impact", icon: <Target className="w-4 h-4" /> },
+  { title: "Impact Tracker", link: "/impactTracker", icon: <Target className="w-4 h-4" /> },
   { title: "Resources", link: "/resources", icon: <BookOpen className="w-4 h-4" /> },
   { title: "Settings", link: "/settings", icon: <Settings className="w-4 h-4" /> },
 ]
