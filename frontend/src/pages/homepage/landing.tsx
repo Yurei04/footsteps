@@ -51,13 +51,17 @@ export default async function Landing() {
           </div> 
           <h1 className="text-lg md:text-xl font-bold">Earth Forward</h1>
         </div>
-        <Link href="/dashboard" aria-label="Navigate to system">
+        <Link 
+          href={"/riskMap"} 
+          aria-label="Explore the environmental system"
+        >
           <Button 
-            className="cursor-pointer rounded-4xl px-8 py-4 border-black bg-red-50 text-black"
-            aria-label="Open the environmental intelligence system"
+            className="group relative cursor-pointer px-8 py-2 text-black overflow-hidden bg-[#C0CCC0] border border-black"
+            aria-label="Explore the system button"
           >
-            Open System
+            Open System 
           </Button>
+          
         </Link>
       </header>
 
@@ -67,11 +71,11 @@ export default async function Landing() {
       >
         <div className="flex flex-col justify-start gap-4 px-4 sm:px-8">
             <div 
-              className="flex gap-4 flex-wrap"
+              className="flex gap-4 flex-wrap tracking-widest"
               aria-label="Content categories"
             >
-                <p className="font-thin text-xs tracking-widest text-black/90">ENVIRONMENTAL</p>
-                <p className="font-thin text-xs tracking-widest text-black/90">INTELLIGENCE</p>
+                <p className="font-thin text-xs tracking-[4px] text-black/90">ENVIRONMENTAL</p>
+                <p className="font-thin text-xs tracking-[4px] text-black/90">INTELLIGENCE</p>
             </div>
             <h2 
               className="my-6 text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter leading-tighter sm:text-6xl"
@@ -83,14 +87,14 @@ export default async function Landing() {
                 <span className="block">Act with care</span>
             </h2>
             <div>
-                <p className="leading-tight line-clamp-3">
+                <p className="tracking-wide line-clamp-3">
                 Earth Forward turns weather, field reports, news, and place-based history
                 into clear, verified guidance for communities facing environmental risks.
                 </p>
             </div>
             <div className="mt-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
                 <Link 
-                  href={"/"} 
+                  href={"/riskMap"} 
                   aria-label="Explore the environmental system"
                 >
                   <Button 

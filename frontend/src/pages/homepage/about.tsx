@@ -57,7 +57,6 @@ export default function AboutPage() {
       className="min-h-screen w-full flex flex-col px-4 sm:px-6 md:px-10 lg:px-12 py-8 sm:py-10 md:py-12 gap-8 sm:gap-10 md:gap-12 bg-[#EBF8E3]"
       aria-label="About page - Eight Connected Capabilities"
     >
-      {/* Header Section */}
       <div className="flex flex-col gap-2 sm:gap-3">
         <p className="text-xs sm:text-sm font-thin text-black/50 tracking-wider uppercase">
           Eight Connected Capabilities
@@ -81,14 +80,26 @@ export default function AboutPage() {
             className="group h-full"
             aria-label={`${card.title} - ${card.des}`}
           >
-            <Card className="h-full p-4 sm:p-5 md:p-6 bg-white border border-gray-200 hover:border-gray-400 hover:shadow-lg transition-all duration-300 flex flex-col">
-              <div className="mb-4 sm:mb-6">
+            <Card className="h-full px-8 pb-8 justify-start bg-white border border-gray-200 hover:border-gray-400 hover:shadow-lg transition-all duration-300 flex flex-col">
+              <div className="flex flex-row justify-between">
                 <span
                   className="inline-flex items-center justify-center w-8 sm:w-10 h-8 sm:h-10 rounded-lg bg-[#EBF8E3] font-bold text-sm sm:text-base"
                   aria-label={`Card number ${idx + 1} of ${data.length}`}
                 >
                   {String(idx + 1).padStart(2, "0")}
                 </span>
+
+                <div className="flex gap-4">
+                  <Link
+                    href={card.link}
+                    className="flex justify-evenly items-center rounded-xl px-2 py-2 border-2 text-md"
+                    aria-label={`Learn more about ${card.title}`}
+                  >
+                    Learn More
+                    <ArrowRight />
+                  </Link>
+                 
+                </div>
               </div>
 
               <div className="flex-1 flex flex-col gap-3 sm:gap-4">
@@ -99,19 +110,6 @@ export default function AboutPage() {
                   {card.des}
                 </p>
               </div>
-
-              <Link
-                href={card.link}
-                className="mt-4 sm:mt-6 inline-flex items-center gap-2 text-gray-900 font-semibold hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 rounded px-1 py-1 transition-colors"
-                aria-label={`Learn more about ${card.title}`}
-              >
-                <span className="text-sm sm:text-base">Learn more</span>
-                <ArrowRight
-                  size={18}
-                  className="group-hover:translate-x-1 transition-transform"
-                  aria-hidden="true"
-                />
-              </Link>
             </Card>
           </article>
         ))}

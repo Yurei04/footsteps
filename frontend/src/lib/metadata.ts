@@ -9,7 +9,7 @@ const baseMetadata = {
 export const defaultMetdata: Metadata = {
     title: { default: "Footsteps", template: "%s | Footsteps"},
     description: "Learn more ",
-    keywords: ["weather", ""],
+    keywords: ["weather", "pollution", "earth"],
     robots: { index: true, follow: true},
     viewport: { width: "device-width", initialScale: 1},
 }
