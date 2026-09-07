@@ -11,15 +11,49 @@ export const metadata: Metadata = pageMetadata(
 
 export default function Resources() {
     return (
-        <div className="w-full">
+        <div 
+          className="w-full"
+          role="application"
+          aria-label="Reference materials and resources application"
+        >
             <UpperNav />
 
-            <div className="flex-col p-4 pl-8 mb-4 justify-between">
-                <h2 className=" font-thin text-md text-[var(--text-muted)]"> RESOURCES </h2>
-                <h1 className="text-4xl text-black "> Reference materials. </h1>
-                <p className="line-clamp-3"> Protocols, frameworks, and technical references for field teams and system operators.</p>
-            </div>
-            <ResourceFeedComp />
+            <header 
+              className="flex-col p-4 pl-8 mb-4 justify-between"
+              aria-describedby="resources-description"
+            >
+                <p 
+                  className="font-thin text-md text-[var(--text-muted)] uppercase tracking-widest"
+                  aria-label="Page section"
+                >
+                  RESOURCES
+                </p>
+                <h1 
+                  className="text-4xl text-black"
+                  id="page-title"
+                >
+                  Reference materials.
+                </h1>
+                <p 
+                  className="line-clamp-3"
+                  id="resources-description"
+                >
+                  Protocols, frameworks, and technical references for field teams and system operators.
+                </p>
+            </header>
+
+            <main 
+              role="main"
+              aria-labelledby="page-title"
+              aria-describedby="resources-description"
+            >
+              <section 
+                aria-label="Resource feed"
+                role="region"
+              >
+                <ResourceFeedComp />
+              </section>
+            </main>
         </div>
     )
 }

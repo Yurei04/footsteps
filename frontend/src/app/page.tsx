@@ -4,7 +4,7 @@ import AboutPage from "@/pages/homepage/about";
 import HomeFooter from "@/pages/homepage/homeFooter";
 
 export const metadata = pageMetadata(
-  "Know what’s changing. Act with care.",
+  "Landing Page",
   "Earth Forward turns weather, field reports, news, and place-based history into clear, verified guidance for communities facing environmental risks.",
   ["weather", "pollution", "earth"]
 )
@@ -12,17 +12,26 @@ export const metadata = pageMetadata(
 export default function Home() {
   return (
     <>
-      <section className="">
+      <section 
+        aria-labelledby="landing-heading"
+        role="region"
+      >
         <Landing />
       </section>
 
-      <section className="">
+      <section 
+        aria-labelledby="about-heading"
+        role="region"
+      >
         <AboutPage />
       </section>
 
-      <section className="">
+      <footer 
+        aria-labelledby="footer-heading"
+        role="contentinfo"
+      >
         <HomeFooter />
-      </section>
+      </footer>
     </>
   );
 }

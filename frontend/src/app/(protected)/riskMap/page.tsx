@@ -19,54 +19,128 @@ export const metadata: Metadata = pageMetadata(
 
 export default function RiskMap() {
   return (
-    <div className="w-full h-screen overflow-hidden flex flex-col">
+    <div 
+      className="w-full h-screen overflow-hidden flex flex-col"
+      role="application"
+      aria-label="Environmental risk map application"
+    >
       <UpperNav />
 
-      <Separator className="" />
+      <Separator 
+        className=""
+        role="presentation"
+        aria-hidden="true"
+      />
 
-      <div className="flex-col pl-8 mb-4">
-        <h2 className="tracking-widest font-thin text-xs text-[var(--text-muted)]"> RISK MAP · ENVIRONMENTAL ANALYSIS </h2>
-        <h1 className="text-2xl text-black "> See pressure before impact. </h1>
-        <p className="line-clamp-3"> Risk hotspots combine forecast intensity, ground saturation, exposure, and documented historical impacts. </p>
-      </div>
+      <header className="flex-col pl-8 mb-4">
+        <p 
+          className="tracking-widest font-thin text-xs text-[var(--text-muted)] uppercase"
+          aria-label="Page section"
+        >
+          RISK MAP · ENVIRONMENTAL ANALYSIS
+        </p>
+        <h1 
+          className="text-2xl text-black"
+          id="page-title"
+        >
+          See pressure before impact.
+        </h1>
+        <p 
+          className="line-clamp-3"
+          id="page-description"
+        >
+          Risk hotspots combine forecast intensity, ground saturation, exposure, and documented historical impacts.
+        </p>
+      </header>
 
-      <div className="flex-1 overflow-hidden p-4">
-        <div className="grid grid-cols-[2fr_1fr] gap-4 h-full">
+      <main 
+        className="flex-1 overflow-hidden p-4"
+        aria-labelledby="page-title"
+        aria-describedby="page-description"
+        role="main"
+      >
+        <div 
+          className="grid grid-cols-[2fr_1fr] gap-4 h-full"
+          role="region"
+          aria-label="Risk map and details section"
+        >
           
-        <div className="overflow-hidden border-x-2 border-t-2 rounded-lg">
-          <div className="relative ">
-            <div className="flex justify-between bg-white rounded-t-3xl p-6 relative z-0">
-              <div className="flex-col">
-                  <p className="tracking-widest font-thin text-xs text-[#00C8B3]">
-                  ENVIRONMENTAL RISK MAP · COUNTRY
+          <section 
+            className="overflow-hidden border-x-2 border-t-2 rounded-lg"
+            aria-labelledby="map-title"
+            aria-describedby="map-description"
+          >
+            <div className="relative">
+              <header className="flex justify-between bg-white rounded-t-3xl p-6 relative z-0">
+                <div className="flex-col">
+                  <p 
+                    className="tracking-widest font-thin text-xs text-[#00C8B3] uppercase"
+                    aria-label="Section context"
+                  >
+                    ENVIRONMENTAL RISK MAP · COUNTRY
                   </p>
-                  <h1 className="text-2xl font-bold">Flood & Heavy Rainfall</h1>
-              </div>
-              <Link 
-                href="/dashboard"
-                className="cursor-pointer rounded-lg p-2 border text-black text-md"
+                  <h2 
+                    className="text-2xl font-bold"
+                    id="map-title"
+                  >
+                    Flood & Heavy Rainfall
+                  </h2>
+                </div>
+                <Link 
+                  href="/dashboard"
+                  className="cursor-pointer rounded-lg p-2 border text-black text-md hover:bg-gray-50 transition-colors"
+                  aria-label="Open full system dashboard"
+                  role="button"
+                >
+                  Open System
+                </Link>
+              </header>
+
+              <div 
+                className="w-full relative z-10"
+                id="map-description"
+                aria-live="polite"
+                aria-label="Interactive environmental risk map"
               >
-                Open System
-              </Link>
+                <DynamicMap />
+              </div>
             </div>
+          </section>
 
-            <div className="w-full relative z-10">
-              <DynamicMap />
-            </div>
-          </div>
-        </div>
-
-          <div className="grid grid-rows-[1.5fr_1fr] gap-4 overflow-hidden">
-            <Card className="overflow-hidden p-4 border">
-                <HotSpotDetails  />
+          <aside 
+            className="grid grid-rows-[1.5fr_1fr] gap-4 overflow-hidden"
+            aria-label="Risk details and updates sidebar"
+          >
+            <Card 
+              className="overflow-hidden p-4 border"
+              role="region"
+              aria-labelledby="hotspot-heading"
+            >
+              <h2 
+                className="sr-only"
+                id="hotspot-heading"
+              >
+                Hotspot Details
+              </h2>
+              <HotSpotDetails />
             </Card>
 
-            <Card className="overflow-hidden p-4 border">
+            <Card 
+              className="overflow-hidden p-4 border"
+              role="region"
+              aria-labelledby="refresh-heading"
+            >
+              <h2 
+                className="sr-only"
+                id="refresh-heading"
+              >
+                Map Refresh and Updates
+              </h2>
               <MapRefresh />
             </Card>
-          </div>
+          </aside>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

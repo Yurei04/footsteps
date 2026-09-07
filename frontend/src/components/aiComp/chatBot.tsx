@@ -19,6 +19,7 @@ export default function ChatBot() {
     const savedMessages = localStorage.getItem("chatMessages");
     if (savedMessages) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMessages(JSON.parse(savedMessages));
       } catch (err) {
         console.error("Failed to load chat history:", err);

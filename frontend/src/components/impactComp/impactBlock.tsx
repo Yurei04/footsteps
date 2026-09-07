@@ -62,19 +62,6 @@ export default function ImpactBlock() {
   return (
     <div className="space-y-12">
       <div>
-        <div className="mb-8">
-          <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-4">
-            Impact Tracker
-          </h2>
-          <h1 className="text-4xl font-light text-black mb-3">
-            Measure what changes.
-          </h1>
-          <p className="text-gray-600 max-w-3xl">
-            Track the environmental and community outcomes of active response
-            plans over time — events logged, actions completed, and areas
-            stabilised.
-          </p>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {data.stats.map((stat) => (
