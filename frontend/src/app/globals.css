@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+:root {
+  --text-muted: #00C8B3;
+}
+
+Button, Link {
+  cursor: pointer;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
