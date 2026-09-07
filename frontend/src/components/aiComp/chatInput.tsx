@@ -17,7 +17,7 @@ export default function ChatInput({ onSend, isLoading }: ChatInputProps) {
       textareaRef.current.style.height = Math.min(
         textareaRef.current.scrollHeight,
         120
-      );
+      ) + "px";
     }
   }, [input]);
 
