@@ -74,9 +74,8 @@ export default function ChatBot() {
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "An error occurred"
-      );
+      const errorMessage = err instanceof Error ? err.message : "An error occurred";
+      setError(errorMessage);
       console.error("Chat error:", err);
     } finally {
       setIsLoading(false);
@@ -84,7 +83,7 @@ export default function ChatBot() {
   };
 
   const handleClearChat = () => {
-    if (confirm("Clear all messages?")) {
+    if (confirm("Clear all messages? This action cannot be undone.")) {
       setMessages([]);
       localStorage.removeItem("chatMessages");
       setError(null);
@@ -92,16 +91,30 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white">
-      <div className="border-b border-gray-300 px-6 py-6 bg-white">
+    <div 
+      className="flex flex-col h-screen bg-white"
+      role="application"
+      aria-label="Environmental AI Assistant chatbot"
+    >
+      <header 
+        className="border-b border-gray-300 px-6 py-6 bg-white"
+        role="banner"
+        aria-labelledby="chat-title"
+      >
         <div className="mb-2">
-          <h2 className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+          <h2 
+            className="text-xs font-medium text-gray-500 uppercase tracking-wide"
+            aria-label="Section label"
+          >
             AI Agent
           </h2>
         </div>
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-4xl font-light text-black mb-2">
+            <h1 
+              className="text-4xl font-light text-black mb-2"
+              id="chat-title"
+            >
               Environmental Assistant
             </h1>
             <p className="text-gray-600 max-w-2xl">
@@ -111,22 +124,34 @@ export default function ChatBot() {
           </div>
           <button
             onClick={handleClearChat}
-            className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            aria-label={`Clear chat history. Currently have ${messages.length} messages.`}
           >
             Clear
           </button>
         </div>
-      </div>
+      </header>
 
       {error && (
-        <div className="px-6 py-3 bg-red-50 border-b border-red-200 text-red-700 text-sm">
+        <div 
+          className="px-6 py-3 bg-red-50 border-b border-red-200 text-red-700 text-sm"
+          role="alert"
+          aria-live="assertive"
+          aria-label={`Error: ${error}`}
+        >
           Error: {error}
         </div>
       )}
 
-      <ChatMessages messages={messages} isLoading={isLoading} />
+      <ChatMessages 
+        messages={messages} 
+        isLoading={isLoading}
+      />
 
-      <ChatInput onSend={handleSendMessage} isLoading={isLoading} />
+      <ChatInput 
+        onSend={handleSendMessage} 
+        isLoading={isLoading}
+      />
     </div>
   );
 }

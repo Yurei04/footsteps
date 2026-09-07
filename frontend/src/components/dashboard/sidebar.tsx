@@ -30,36 +30,76 @@ const dashboardLinks: DashboardLink[] = [
 
 export function AppSidebar() {
   return (
-    <Sidebar variant="floating">
-        <SidebarHeader>
-          <div className="flex items-center gap-3 mb-2">
-            <Image
-              src="/images/logo1.jpeg"
-              alt="Earth Forward logo"
-              width={50}
-              height={50}
-              className="rounded-2xl"
-              priority
-            />
+    <Sidebar 
+      variant="floating"
+      aria-label="Application navigation sidebar"
+    >
+      <SidebarHeader>
+        <div 
+          className="flex items-center gap-3 mb-2"
+          role="region"
+          aria-label="Application branding"
+        >
+          <Image
+            src="/images/logo1.jpeg"
+            alt="Earth Forward logo"
+            width={50}
+            height={50}
+            className="rounded-2xl"
+            priority
+          />
 
-            <div className="flex flex-col">
-              <h1 className="font-semibold">Earth Forward</h1>
-              <p className="text-sm text-muted-foreground">
-                Intelligence System
-              </p>
-            </div>
+          <div className="flex flex-col">
+            <h1 
+              className="font-semibold"
+              id="app-title"
+            >
+              Earth Forward
+            </h1>
+            <p 
+              className="text-sm text-muted-foreground"
+              aria-label="Application subtitle"
+            >
+              Intelligence System
+            </p>
           </div>
-        </SidebarHeader>
+        </div>
+      </SidebarHeader>
+
       <SidebarContent>
         <SidebarMenu>
-            {dashboardLinks.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton render={<a href={item.link} />}>
-                    {item.icon}
+          <nav 
+            role="navigation"
+            aria-label="Main navigation menu"
+            aria-describedby="nav-description"
+          >
+            <p id="nav-description" className="sr-only">
+              Navigate between different sections of the Earth Forward environmental monitoring system.
+            </p>
+            
+            <ul role="list">
+              {dashboardLinks.map((item) => (
+                <SidebarMenuItem 
+                  key={item.title}
+                  role="listitem"
+                >
+                  <SidebarMenuButton 
+                    render={<a href={item.link} />}
+                    aria-label={`Navigate to ${item.title}`}
+                    className="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+                  >
+                    <span 
+                      aria-hidden="true"
+                      className="flex-shrink-0"
+                    >
+                      {item.icon}
+                    </span>
                     <span>{item.title}</span>
-                </SidebarMenuButton>
+                  </SidebarMenuButton>
                 </SidebarMenuItem>
-            ))}
+              ))}
+            </ul>
+          </nav>
         </SidebarMenu>
       </SidebarContent>
     </Sidebar>

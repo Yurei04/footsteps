@@ -33,8 +33,17 @@ export default function ChatInput({ onSend, isLoading }: ChatInputProps) {
   };
 
   return (
-    <div className="border-t border-gray-300 p-6 bg-white">
-      <form onSubmit={handleSubmit} className="flex gap-3">
+    <div 
+      className="border-t border-gray-300 p-6 bg-white"
+      role="region"
+      aria-label="Chat input area"
+    >
+      <form 
+        onSubmit={handleSubmit} 
+        className="flex gap-3"
+        role="search"
+        aria-label="Send message form"
+      >
         <textarea
           ref={textareaRef}
           value={input}
@@ -48,16 +57,24 @@ export default function ChatInput({ onSend, isLoading }: ChatInputProps) {
               handleSubmit(e);
             }
           }}
+          aria-label="Message input field"
+          aria-describedby="input-hint"
+          aria-disabled={isLoading}
         />
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="px-6 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          aria-label={`Send message${isLoading ? " (Loading)" : ""}`}
+          aria-busy={isLoading}
         >
           Send
         </button>
       </form>
-      <p className="text-xs text-gray-400 mt-3">
+      <p 
+        className="text-xs text-gray-400 mt-3"
+        id="input-hint"
+      >
         Press Enter to send, Shift + Enter for new line
       </p>
     </div>

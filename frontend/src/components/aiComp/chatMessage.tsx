@@ -24,9 +24,24 @@ export default function ChatMessages({
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-4">
+    <div 
+      className="flex-1 overflow-y-auto p-6 space-y-4"
+      role="region"
+      aria-label="Chat message history"
+      aria-live="polite"
+      aria-atomic="false"
+      aria-describedby="chat-description"
+    >
+      <p id="chat-description" className="sr-only">
+        Conversation history with the environmental AI assistant. Messages appear in chronological order with user messages on the right and assistant responses on the left.
+      </p>
+
       {messages.length === 0 && !isLoading && (
-        <div className="flex items-center justify-center h-full text-center">
+        <div 
+          className="flex items-center justify-center h-full text-center"
+          role="status"
+          aria-label="Chat starting state"
+        >
           <div>
             <h3 className="text-xl font-light text-black mb-2">
               Start a conversation
@@ -45,6 +60,8 @@ export default function ChatMessages({
           className={`flex ${
             message.role === "user" ? "justify-end" : "justify-start"
           }`}
+          role="article"
+          aria-label={`${message.role === "user" ? "Your" : "Assistant"} message`}
         >
           <div
             className={`max-w-xs md:max-w-md lg:max-w-lg px-4 py-3 rounded-lg ${
@@ -52,6 +69,8 @@ export default function ChatMessages({
                 ? "bg-black text-white"
                 : "bg-gray-100 text-black border border-gray-300"
             }`}
+            role="region"
+            aria-label={`${message.role === "user" ? "User" : "Assistant"} message: ${message.content}`}
           >
             <p className="text-sm leading-relaxed">{message.content}</p>
           </div>
@@ -59,19 +78,30 @@ export default function ChatMessages({
       ))}
 
       {isLoading && (
-        <div className="flex justify-start">
+        <div 
+          className="flex justify-start"
+          role="status"
+          aria-label="Assistant is typing"
+          aria-live="polite"
+        >
           <div className="bg-gray-100 border border-gray-300 px-4 py-3 rounded-lg">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+              <div 
+                className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                aria-hidden="true"
+              ></div>
               <div
                 className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                 style={{ animationDelay: "0.2s" }}
+                aria-hidden="true"
               ></div>
               <div
                 className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                 style={{ animationDelay: "0.4s" }}
+                aria-hidden="true"
               ></div>
             </div>
+            <span className="sr-only">Assistant is typing...</span>
           </div>
         </div>
       )}
