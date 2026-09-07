@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 const baseMetadata = {
     siteName: "Footsteps",
@@ -6,19 +6,24 @@ const baseMetadata = {
     twitterHandle: "@footsteps",
 };
 
-export const defaultMetdata: Metadata = {
+// Metadata export
+export const defaultMetadata: Metadata = {
     title: { default: "Footsteps", template: "%s | Footsteps"},
-    description: "Learn more ",
+    description: "Learn more",
     keywords: ["weather", "pollution", "earth"],
     robots: { index: true, follow: true},
-    viewport: { width: "device-width", initialScale: 1},
-}
+};
+
+// Viewport export
+export const defaultViewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+};
 
 export function pageMetadata(
     title: string,
     description: string,
     keywords: string[] = []
-
 ): Metadata {
     return {
         title,

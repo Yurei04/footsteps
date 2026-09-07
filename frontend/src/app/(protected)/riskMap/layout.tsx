@@ -1,9 +1,10 @@
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/dashboard/sidebar"
-import { Metadata } from "next"
-import { defaultMetdata } from "@/lib/metadata"
+import { Metadata, Viewport } from "next"
+import { defaultMetadata, defaultViewport } from "@/lib/metadata"
 
-export const metadata: Metadata = defaultMetdata
+export const metadata: Metadata = defaultMetadata
+export const viewport: Viewport = defaultViewport
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
