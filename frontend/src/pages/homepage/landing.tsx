@@ -4,24 +4,6 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Earth Forward - Environmental Intelligence & Guidance",
-  description: "Know what's changing. Act with care. Earth Forward turns weather, field reports, news, and place-based history into clear, verified guidance for communities facing environmental risks.",
-  keywords: ["environmental", "intelligence", "weather", "community", "guidance", "climate"],
-  openGraph: {
-    title: "Earth Forward - Environmental Intelligence & Guidance",
-    description: "Know what's changing. Act with care.",
-    type: "website",
-    url: "https://earthforward.com",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Earth Forward - Environmental Intelligence & Guidance",
-    description: "Know what's changing. Act with care.",
-  },
-}
 
 export default async function Landing() {
   return (

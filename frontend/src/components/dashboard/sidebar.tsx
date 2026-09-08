@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sidebar"
 import { ChevronDown, Plus, User2, LayoutDashboard, Map, FileText, Brain, Eye, Lightbulb, Target, BookOpen, Settings, SidebarIcon } from "lucide-react"
 import Image from "next/image"
+import Link from "next/link"
 
 interface DashboardLink {
   title: string
@@ -40,14 +41,18 @@ export function AppSidebar() {
           role="region"
           aria-label="Application branding"
         >
-          <Image
-            src="/images/logo1.jpeg"
-            alt="Earth Forward logo"
-            width={50}
-            height={50}
-            className="rounded-2xl"
-            priority
-          />
+          <Link
+            href={"/"}
+          >
+            <Image
+              src="/images/logo1.jpeg"
+              alt="Earth Forward logo"
+              width={50}
+              height={50}
+              className="rounded-2xl"
+              priority
+            />
+          </Link>
 
           <div className="flex flex-col">
             <h1 

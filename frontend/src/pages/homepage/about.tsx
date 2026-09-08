@@ -10,44 +10,49 @@ interface CardsData {
 
 const data: CardsData[] = [
   {
-    title: "Card 1",
-    des: "This is the description for card 1.",
-    link: "/card-1",
+    title: "Dashboard",
+    des: "View your main dashboard and system overview.",
+    link: "/riskMap",
   },
   {
-    title: "Card 2",
-    des: "This is the description for card 2.",
-    link: "/card-2",
+    title: "Risk Map",
+    des: "Explore environmental risks and affected areas.",
+    link: "/riskMap",
   },
   {
-    title: "Card 3",
-    des: "This is the description for card 3.",
-    link: "/card-3",
+    title: "Report",
+    des: "View and manage environmental reports.",
+    link: "/reports",
   },
   {
-    title: "Card 4",
-    des: "This is the description for card 4.",
-    link: "/card-4",
+    title: "AI Agent",
+    des: "Interact with the AI agent for insights and assistance.",
+    link: "/aiAgent",
   },
   {
-    title: "Card 5",
-    des: "This is the description for card 5.",
-    link: "/card-5",
+    title: "Monitoring",
+    des: "Monitor environmental conditions and ongoing events.",
+    link: "/monitoring",
   },
   {
-    title: "Card 6",
-    des: "This is the description for card 6.",
-    link: "/card-6",
+    title: "News & Insights",
+    des: "Stay updated with the latest environmental news and insights.",
+    link: "/newFeed",
   },
   {
-    title: "Card 7",
-    des: "This is the description for card 7.",
-    link: "/card-7",
+    title: "Impact Tracker",
+    des: "Track environmental impact and progress over time.",
+    link: "/impactTracker",
   },
   {
-    title: "Card 8",
-    des: "This is the description for card 8.",
-    link: "/card-8",
+    title: "Resources",
+    des: "Access useful environmental resources and information.",
+    link: "/resources",
+  },
+  {
+    title: "Settings",
+    des: "Manage your preferences and application settings.",
+    link: "/settings",
   },
 ];
 

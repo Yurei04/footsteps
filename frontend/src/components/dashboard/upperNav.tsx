@@ -30,7 +30,7 @@ export default function UpperNav() {
           size="sm"
           aria-label="Quick action button"
         >
-          Action
+          AI Chatbot
         </Button>
         <div 
           className="w-10 h-10 border rounded-full flex items-center justify-center"
@@ -38,7 +38,7 @@ export default function UpperNav() {
           aria-label="User profile avatar"
         >
           <Image
-            src="/avatar.png"
+            src="/images/logo1.jpeg"
             alt="Current user avatar"
             width={40}
             height={40}
