@@ -1,6 +1,4 @@
 import ChatBot from "@/components/aiComp/chatBot";
-import UpperNav from "@/components/dashboard/upperNav";
-
 import { pageMetadata } from "@/lib/metadata";
 import { Metadata } from "next";
 
@@ -17,8 +15,6 @@ export default function ChatbotPage() {
       role="application"
       aria-label="Agentic AI assistant for environmental intelligence"
     >
-        <UpperNav />
-
         <main 
           role="main"
           aria-label="AI chatbot interface for environmental queries"

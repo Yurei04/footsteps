@@ -1,4 +1,4 @@
-import UpperNav from "@/components/dashboard/upperNav";
+
 import ImpactBlock from "@/components/impactComp/impactBlock";
 import { pageMetadata } from "@/lib/metadata";
 import { Metadata } from "next";
@@ -16,7 +16,6 @@ export default function Impact() {
       role="application"
       aria-label="Impact tracking and measurement application"
     >
-      <UpperNav />
 
       <header 
         className="mb-8 px-8 pt-8"

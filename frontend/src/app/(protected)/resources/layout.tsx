@@ -1,18 +1,21 @@
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/dashboard/sidebar"
-import { Metadata, Viewport } from "next"
+import type { Metadata, Viewport } from "next"
 import { defaultMetadata, defaultViewport } from "@/lib/metadata"
+import { ThemeProvider } from "@/components/theme/theme-provider"
+import { CombinedNavigation } from "@/components/dashboard/navigation"
 
 export const metadata: Metadata = defaultMetadata
 export const viewport: Viewport = defaultViewport
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <SidebarProvider>
-        <AppSidebar />
-        <main className="w-full">
-            {children}
-        </main>
-    </SidebarProvider>
+    <ThemeProvider>
+      <CombinedNavigation>
+        {children}
+      </CombinedNavigation>
+    </ThemeProvider>
   )
 }

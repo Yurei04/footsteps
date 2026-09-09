@@ -1,5 +1,4 @@
 import NewsFeedComp from "@/components/newsFeed/newsFeedComp"
-import UpperNav from "@/components/dashboard/upperNav"
 import { pageMetadata } from "@/lib/metadata"
 import { Metadata } from "next"
 
@@ -16,8 +15,6 @@ export default function News() {
           role="application"
           aria-label="News and insights feed application"
         >
-            <UpperNav />
-
             <header 
               className="flex-col p-4 pl-8 mb-4"
               aria-describedby="news-description"

@@ -1,5 +1,4 @@
-// app/monitoring/page.tsx
-import UpperNav from "@/components/dashboard/upperNav"
+
 import EventTimeline from "@/components/monitoring/eventTimeline"
 import EventProgress from "@/components/monitoring/eventsProgress"
 import { pageMetadata } from "@/lib/metadata"
@@ -18,8 +17,6 @@ export default function Monitoring() {
           role="application"
           aria-label="Continuous monitoring and event tracking application"
         >
-            <UpperNav />
-
             <header 
               className="flex flex-col p-4 pl-8 mb-4 justify-between gap-2"
               aria-describedby="monitoring-description"

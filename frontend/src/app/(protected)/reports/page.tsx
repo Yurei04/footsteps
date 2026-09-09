@@ -1,4 +1,4 @@
-import UpperNav from "@/components/dashboard/upperNav";
+
 import AgentBlock from "@/components/reportsComp/agentBlock";
 import ReportsBlock from "@/components/reportsComp/reportsBlock";
 
@@ -9,8 +9,6 @@ export default function Reports() {
       role="application"
       aria-label="News and insights reports application"
     >
-      <UpperNav />
-
       <header 
         className="flex-col p-4 pl-8 mb-8"
         aria-describedby="reports-description"

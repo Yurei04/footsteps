@@ -1,4 +1,4 @@
-import UpperNav from "@/components/dashboard/upperNav"
+
 import ResourceFeedComp from "@/components/resources/resourceFeedComp"
 import { pageMetadata } from "@/lib/metadata"
 import { Metadata } from "next"
@@ -16,8 +16,6 @@ export default function Resources() {
           role="application"
           aria-label="Reference materials and resources application"
         >
-            <UpperNav />
-
             <header 
               className="flex-col p-4 pl-8 mb-4 justify-between"
               aria-describedby="resources-description"

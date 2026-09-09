@@ -1,34 +1,45 @@
-import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
-import "./globals.css";
 import { Metadata, Viewport } from "next"
 import { defaultMetadata, defaultViewport } from "@/lib/metadata"
-
-export const metadata: Metadata = defaultMetadata
-export const viewport: Viewport = defaultViewport
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { CombinedNavigation } from "@/components/dashboard/navigation";
+import "./globals.css"
 
 const astaFont = localFont({
   src: "./fonts/asta_font.ttf",
   variable: "--font-asta",
 });
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export const metadata: Metadata = defaultMetadata
+export const viewport: Viewport = defaultViewport
+ 
+export default function RootLayout({
+  children, 
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${astaFont.variable} h-full antialiased`}
-    >
-      <body className="font-sans">{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta 
+          name="theme-color" 
+          content="#ffffff" 
+          media="(prefers-color-scheme: light)" 
+        />
+        <meta 
+          name="theme-color" 
+          content="#0f172a" 
+          media="(prefers-color-scheme: dark)" 
+        />
+      </head>
+      <body className={`${astaFont.variable} bg-background text-foreground`}>
+        <div className="flex flex-col lg:flex-row min-h-screen">
+            <main className="w-full bg-background text-foreground transition-colors duration-300">
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
-  );
+  )
 }
+ 
