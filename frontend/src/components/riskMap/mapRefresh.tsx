@@ -1,56 +1,63 @@
-import { ArrowRight } from "lucide-react"
+import { RefreshCw, Clock3 } from "lucide-react"
 import { Button } from "../ui/button"
 
 interface MapRefreshProps {
-  actionPlan?: string
-  onViewActionPlan?: () => void
+  lastUpdated?: string
+  onRefresh?: () => void
+  isRefreshing?: boolean
 }
 
 export default function MapRefresh({
-  actionPlan,
-  onViewActionPlan,
+  lastUpdated,
+  onRefresh,
+  isRefreshing = false,
 }: MapRefreshProps) {
   return (
     <section
       className="w-full h-full flex flex-col justify-evenly gap-4"
       role="region"
-      aria-label="AI action plan"
-      aria-describedby="action-plan-description"
+      aria-label="Environmental monitoring"
     >
-      <h2
-        className="text-[#00C8B3] text-xs tracking-widest uppercase"
-        id="action-plan-title"
-      >
-        AI Action Plan
+      <h2 className="text-[#00C8B3] text-xs tracking-widest uppercase">
+        Environmental Monitoring
       </h2>
 
-      <h3
-        className="text-2xl font-semibold"
-        id="action-plan-description"
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-      >
-        {actionPlan ||
-          "Select a risk hotspot to generate an AI recommended action plan."}
-      </h3>
+      <div>
+        <h3 className="text-2xl font-semibold">
+          Risk Map Monitoring
+        </h3>
 
-      <p className="sr-only">
-        The AI analyzes the selected environmental risk hotspot and provides
-        recommended response actions.
-      </p>
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+          Monitor environmental conditions and risk changes
+          across locations using continuously updated data.
+        </p>
+      </div>
+
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <Clock3 aria-hidden="true" className="size-4" />
+
+        <span>
+          {lastUpdated
+            ? `Last updated: ${lastUpdated}`
+            : "Monitoring current environmental conditions"}
+        </span>
+      </div>
 
       <Button
-        onClick={onViewActionPlan}
+        onClick={onRefresh}
         variant="ghost"
+        disabled={isRefreshing}
         className="text-md tracking-wider flex justify-start hover:bg-gray-100 transition-colors"
-        aria-label="View AI action plan"
+        aria-label="Refresh environmental risk map"
       >
-        View Action Plan
-        <ArrowRight
+        <RefreshCw
           aria-hidden="true"
-          className="ml-2"
+          className={`mr-2 size-4 ${
+            isRefreshing ? "animate-spin" : ""
+          }`}
         />
+
+        {isRefreshing ? "Refreshing..." : "Refresh Risk Map"}
       </Button>
     </section>
   )
