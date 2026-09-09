@@ -1,207 +1,303 @@
 "use client"
 
-import { Map, MapMarker, MarkerContent, MarkerPopup, MapControls, MarkerLabel } from "@/components/ui/map";
-import { Button } from "@/components/ui/button";
-import { Star, Navigation, Clock, ExternalLink } from "lucide-react";
-import Image from "next/image";
+import {
+  Map,
+  MapMarker,
+  MarkerContent,
+  MarkerPopup,
+  MapControls,
+  MarkerLabel,
+  useMap,
+} from "@/components/ui/map"
 
-const places = [
-  {
-    id: 1,
-    name: "The Metropolitan Museum of Art",
-    label: "Museum",
-    category: "Museum",
-    rating: 4.8,
-    reviews: 12453,
-    hours: "10:00 AM - 5:00 PM",
-    image:
-      "/images/logo2.jpeg",
-    lng: -73.9632,
-    lat: 40.7794,
-  },
-  {
-    id: 2,
-    name: "Brooklyn Bridge",
-    label: "Landmark",
-    category: "Landmark",
-    rating: 4.9,
-    reviews: 8234,
-    hours: "Open 24 hours",
-    image:
-      "/images/logo2.jpeg",
-    lng: -73.9969,
-    lat: 40.7061,
-  },
-  {
-    id: 3,
-    name: "Grand Central Terminal",
-    label: "Transit",
-    category: "Transit",
-    rating: 4.7,
-    reviews: 5621,
-    hours: "5:15 AM - 2:00 AM",
-    image:
-      "/images/logo2.jpeg",
-    lng: -73.9772,
-    lat: 40.7527,
-  },
-];
+import { Button } from "@/components/ui/button"
+import { Navigation, ExternalLink } from "lucide-react"
+import { useEffect, useState } from "react"
 
-export default function RiskWholeMap () {
-    return (
-        <div 
-          className="h-[400px] w-full"
-          role="region"
-          aria-label="Risk assessment map showing places of interest"
-          aria-describedby="map-description"
-        >
-            <p id="map-description" className="sr-only">
-              Interactive map showing {places.length} locations with risk ratings, hours of operation, and contact information.
-            </p>
-            
-            <Map 
-              center={[2.3522, 48.8566]} 
-              zoom={10}
-              aria-label="Geographic risk map"
-            >
-                <MapControls
-                  position="top-right"
-                  showZoom
-                  showCompass
-                  showLocate
-                  showFullscreen
-                  aria-label="Map navigation controls"
-                />
-                
-                {places.map((place) => (
-                    <MapMarker 
-                      key={place.id} 
-                      longitude={place.lng} 
-                      latitude={place.lat}
-                      aria-label={`${place.name}, ${place.category}`}
-                    >
-                        <MarkerContent>
-                            <div 
-                              className="size-5 cursor-pointer rounded-full border-2 border-white bg-rose-500 shadow-lg transition-transform hover:scale-110" 
-                              role="button"
-                              tabIndex={0}
-                              aria-label={`Location marker: ${place.name}. Rating: ${place.rating} out of 5. Click to view details.`}
-                              aria-pressed="false"
-                            />
-                            <MarkerLabel position="bottom">
-                              <span aria-label={`${place.label}: ${place.name}`}>
-                                {place.label}
-                              </span>
-                            </MarkerLabel>
-                        </MarkerContent>
-                        
-                        <MarkerPopup 
-                          className="w-62 p-0"
-                          aria-labelledby={`popup-title-${place.id}`}
-                          aria-describedby={`popup-desc-${place.id}`}
-                        >
-                            <div 
-                              className="relative h-32 overflow-hidden rounded-t-md"
-                              role="img"
-                              aria-label={`Image of ${place.name}`}
-                            >
-                                <Image
-                                    fill
-                                    src={place.image}
-                                    alt={`${place.name} location photo`}
-                                    className="object-cover"
-                                />
-                            </div>
-                            
-                            <div className="space-y-2 p-3">
-                                <div>
-                                    <p 
-                                      className="text-muted-foreground pb-0.5 text-[11px] font-medium tracking-wide uppercase"
-                                      aria-label="Location category"
-                                    >
-                                        {place.category}
-                                    </p>
-                                    <h3 
-                                      id={`popup-title-${place.id}`}
-                                      className="text-foreground leading-tight font-semibold"
-                                    >
-                                        {place.name}
-                                    </h3>
-                                </div>
-                                
-                                <div 
-                                  id={`popup-desc-${place.id}`}
-                                  className="space-y-2"
-                                >
-                                    <div 
-                                      className="flex items-center gap-3 text-sm"
-                                      role="region"
-                                      aria-label="Location rating"
-                                    >
-                                        <div className="flex items-center gap-1">
-                                            <Star 
-                                              className="size-3.5 fill-amber-400 text-amber-400" 
-                                              aria-hidden="true"
-                                            />
-                                            <span className="font-medium">
-                                              <span aria-label="Rating">{place.rating}</span>
-                                              <span className="sr-only"> out of 5 stars</span>
-                                            </span>
-                                            <span className="text-muted-foreground">
-                                              (
-                                              <span aria-label={`${place.reviews} reviews`}>
-                                                {place.reviews.toLocaleString()}
-                                              </span>
-                                              )
-                                            </span>
-                                        </div>
-                                    </div>
-                                    
-                                    <div 
-                                      className="text-muted-foreground flex items-center gap-1.5 text-sm"
-                                      role="region"
-                                      aria-label="Operating hours"
-                                    >
-                                        <Clock 
-                                          className="size-3.5" 
-                                          aria-hidden="true"
-                                        />
-                                        <span>{place.hours}</span>
-                                    </div>
-                                    
-                                    <div 
-                                      className="flex gap-2 pt-1"
-                                      role="group"
-                                      aria-label="Actions"
-                                    >
-                                        <Button 
-                                          size="sm" 
-                                          className="flex-1"
-                                          aria-label={`Get directions to ${place.name}`}
-                                        >
-                                            <Navigation 
-                                              className="size-3.5" 
-                                              aria-hidden="true"
-                                            />
-                                            Directions
-                                        </Button>
-                                        <Button 
-                                          size="icon-sm" 
-                                          variant="outline"
-                                          aria-label={`Open ${place.name} in new window`}
-                                        >
-                                            <ExternalLink 
-                                              className="size-3.5"
-                                              aria-hidden="true"
-                                            />
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </MarkerPopup>
-                    </MapMarker>
-                ))}
-            </Map>
-        </div>
+interface Hotspot {
+  id: string
+  location: string
+  country?: string
+  latitude: number
+  longitude: number
+  riskLevel: string
+  riskType: string
+  precipitation: number
+  temperature: number
+  humidity: number
+  windSpeed: number
+  weatherCode: number | null
+  riskReason: string
+  date: string | null
+  analyzedAt: string | null
+}
+
+export default function RiskWholeMap() {
+  const [hotspots, setHotspots] = useState<Hotspot[]>([])
+
+  useEffect(() => {
+    const fetchHotspots = async () => {
+      try {
+        const res = await fetch("/api/risk")
+        const data = await res.json()
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch risk data")
+        }
+
+        setHotspots(data)
+      } catch (error) {
+        console.error("Failed to fetch risk data:", error)
+      }
+    }
+
+    fetchHotspots()
+  }, [])
+
+  const getRiskColor = (riskLevel: string) => {
+    switch (riskLevel.toUpperCase()) {
+      case "HIGH":
+        return "bg-red-500"
+
+      case "MEDIUM":
+        return "bg-yellow-500"
+
+      case "LOW":
+      default:
+        return "bg-green-500"
+    }
+  }
+
+  const selectHotspot = (spot: Hotspot) => {
+    window.dispatchEvent(
+      new CustomEvent("hotspot-selected", {
+        detail: {
+          id: spot.id,
+        },
+      })
     )
+  }
+
+  return (
+    <div
+      className="h-[400px] w-full"
+      role="region"
+      aria-label="Environmental risk map"
+    >
+      <p
+        id="map-description"
+        className="sr-only"
+      >
+        Interactive environmental risk map showing current environmental risk hotspots.
+      </p>
+
+      <Map
+        center={[20, 20]}
+        zoom={1.3}
+        aria-label="Global environmental risk map"
+      >
+        <MapControls
+          position="top-right"
+          showZoom
+          showCompass
+          showFullscreen
+          aria-label="Map navigation controls"
+        />
+
+        <HotspotMarkers
+          hotspots={hotspots}
+          getRiskColor={getRiskColor}
+          selectHotspot={selectHotspot}
+        />
+      </Map>
+    </div>
+  )
+}
+
+function HotspotMarkers({
+  hotspots,
+  getRiskColor,
+  selectHotspot,
+}: {
+  hotspots: Hotspot[]
+  getRiskColor: (riskLevel: string) => string
+  selectHotspot: (spot: Hotspot) => void
+}) {
+  const { map } = useMap()
+
+  const handleHotspotClick = (spot: Hotspot) => {
+    selectHotspot(spot)
+
+    map?.flyTo({
+      center: [spot.longitude, spot.latitude],
+      zoom: 7,
+      duration: 1200,
+      essential: true,
+    })
+  }
+
+  return (
+    <>
+      {hotspots.map((spot) => (
+        <MapMarker
+          key={spot.id}
+          longitude={spot.longitude}
+          latitude={spot.latitude}
+          aria-label={`${spot.location}, ${spot.riskLevel} risk`}
+        >
+          <MarkerContent>
+            {/* Google Maps-style location pin */}
+            <div
+              className="relative flex cursor-pointer items-center justify-center transition-transform duration-200 hover:scale-110"
+              role="button"
+              tabIndex={0}
+              aria-label={`${spot.location}. Risk level: ${spot.riskLevel}`}
+              onClick={() => handleHotspotClick(spot)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault()
+                  handleHotspotClick(spot)
+                }
+              }}
+            >
+              {/* Pin body */}
+              <div
+                className={`relative flex size-8 items-center justify-center rounded-full border-2 border-white ${getRiskColor(
+                  spot.riskLevel
+                )} shadow-lg`}
+              >
+                {/* White center */}
+                <div className="size-3 rounded-full bg-white shadow-sm" />
+              </div>
+
+              {/* Pin point */}
+              <div
+                className={`absolute bottom-[-5px] left-1/2 size-3 -translate-x-1/2 rotate-45 ${getRiskColor(
+                  spot.riskLevel
+                )} border-r-2 border-b-2 border-white`}
+              />
+            </div>
+
+            <MarkerLabel position="bottom">
+              <span className="rounded bg-white/90 px-1.5 py-0.5 text-xs font-medium shadow-sm">
+                {spot.location}
+              </span>
+            </MarkerLabel>
+          </MarkerContent>
+
+          <MarkerPopup
+            className="w-62 p-0"
+            aria-labelledby={`popup-title-${spot.id}`}
+            aria-describedby={`popup-desc-${spot.id}`}
+          >
+            <div className="space-y-2 p-3">
+              <div>
+                <p className="text-muted-foreground pb-0.5 text-[11px] font-medium tracking-wide uppercase">
+                  Environmental Risk
+                </p>
+
+                <h3
+                  id={`popup-title-${spot.id}`}
+                  className="text-foreground leading-tight font-semibold"
+                >
+                  {spot.location}
+                </h3>
+
+                {spot.country && (
+                  <p className="text-muted-foreground text-xs">
+                    {spot.country}
+                  </p>
+                )}
+              </div>
+
+              <div
+                id={`popup-desc-${spot.id}`}
+                className="space-y-2"
+              >
+                <p className="font-semibold">
+                  Risk Level: {spot.riskLevel}
+                </p>
+
+                <p className="text-sm">
+                  {spot.riskType}
+                </p>
+
+                <p className="text-sm text-muted-foreground">
+                  {spot.riskReason}
+                </p>
+
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div>
+                    <span className="text-muted-foreground">
+                      Rainfall
+                    </span>
+
+                    <p className="font-medium">
+                      {spot.precipitation} mm
+                    </p>
+                  </div>
+
+                  <div>
+                    <span className="text-muted-foreground">
+                      Temperature
+                    </span>
+
+                    <p className="font-medium">
+                      {spot.temperature} °C
+                    </p>
+                  </div>
+
+                  <div>
+                    <span className="text-muted-foreground">
+                      Humidity
+                    </span>
+
+                    <p className="font-medium">
+                      {spot.humidity}%
+                    </p>
+                  </div>
+
+                  <div>
+                    <span className="text-muted-foreground">
+                      Wind Speed
+                    </span>
+
+                    <p className="font-medium">
+                      {spot.windSpeed} km/h
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 pt-1">
+                  <Button
+                    size="sm"
+                    className="flex-1"
+                    aria-label={`Get directions to ${spot.location}`}
+                  >
+                    <Navigation
+                      className="size-3.5"
+                      aria-hidden="true"
+                    />
+
+                    Directions
+                  </Button>
+
+                  <Button
+                    size="icon-sm"
+                    variant="outline"
+                    aria-label={`Open ${spot.location}`}
+                  >
+                    <ExternalLink
+                      className="size-3.5"
+                      aria-hidden="true"
+                    />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </MarkerPopup>
+        </MapMarker>
+      ))}
+    </>
+  )
 }

@@ -17,7 +17,7 @@ interface DashboardLink {
 }
 
 const dashboardLinks: DashboardLink[] = [
-  { title: "Dashboard", link: "/riskMap", icon: <LayoutDashboard className="w-4 h-4" /> },
+  { title: "Dashboard", link: "/dashboard", icon: <LayoutDashboard className="w-4 h-4" /> },
   { title: "Risk Map", link: "/riskMap", icon: <Map className="w-4 h-4" /> },
   { title: "Report", link: "/reports", icon: <FileText className="w-4 h-4" /> },
   { title: "AI Agent", link: "/aiAgent", icon: <Brain className="w-4 h-4" /> },
