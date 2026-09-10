@@ -1,64 +1,64 @@
-import { ArrowRight } from "lucide-react"
+import { RefreshCw, Clock3 } from "lucide-react"
 import { Button } from "../ui/button"
 
-
 interface MapRefreshProps {
-    refresh?: boolean
-    onRefresh?: () => void
+  lastUpdated?: string
+  onRefresh?: () => void
+  isRefreshing?: boolean
 }
 
-export default function MapRefresh ({ refresh = false, onRefresh }: MapRefreshProps) {
-    return (
-        <section 
-          className="w-full h-full flex flex-col justify-evenly gap-4"
-          role="region"
-          aria-label="Map update notification"
-          aria-describedby="refresh-description"
-        >
-            <h2 
-              className="text-[#00C8B3] text-xs tracking-widest uppercase"
-              id="refresh-title"
-              aria-label="Section label"
-            >
-                Map Refresh
-            </h2>
-            
-            <h3 
-              className="text-2xl font-semibold"
-              id="refresh-description"
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-            >
-                New satellite moisture layer available.
-            </h3>
+export default function MapRefresh({
+  lastUpdated,
+  onRefresh,
+  isRefreshing = false,
+}: MapRefreshProps) {
+  return (
+    <section
+      className="w-full h-full flex flex-col justify-evenly gap-4"
+      role="region"
+      aria-label="Environmental monitoring"
+    >
+      <h2 className="text-[#00C8B3] text-xs tracking-widest uppercase">
+        Environmental Monitoring
+      </h2>
 
-            <p className="sr-only">
-                An updated satellite imagery moisture layer is available for the environmental risk map. 
-                Click the Apply Update button to load the latest data.
-            </p>
-            
-            <Button
-                onClick={onRefresh}
-                variant="ghost"
-                className="text-md tracking-wider flex justify-start hover:bg-gray-100 transition-colors"
-                aria-label={`Apply map update. Currently showing ${refresh ? 'updated' : 'standard'} data.`}
-                aria-describedby="update-info"
-                role="button"
-            >
-                Apply Update 
-                <ArrowRight 
-                  aria-hidden="true"
-                  className="ml-2"
-                />
-            </Button>
+      <div>
+        <h3 className="text-2xl font-semibold">
+          Risk Map Monitoring
+        </h3>
 
-            <p 
-              id="update-info"
-              className="sr-only"
-            >
-                Clicking this button will update the map with the latest satellite moisture data to improve risk assessment accuracy.
-            </p>
-        </section>
-    )
+        <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+          Monitor environmental conditions and risk changes
+          across locations using continuously updated data.
+        </p>
+      </div>
+
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <Clock3 aria-hidden="true" className="size-4" />
+
+        <span>
+          {lastUpdated
+            ? `Last updated: ${lastUpdated}`
+            : "Monitoring current environmental conditions"}
+        </span>
+      </div>
+
+      <Button
+        onClick={onRefresh}
+        variant="ghost"
+        disabled={isRefreshing}
+        className="text-md tracking-wider flex justify-start hover:bg-gray-100 transition-colors"
+        aria-label="Refresh environmental risk map"
+      >
+        <RefreshCw
+          aria-hidden="true"
+          className={`mr-2 size-4 ${
+            isRefreshing ? "animate-spin" : ""
+          }`}
+        />
+
+        {isRefreshing ? "Refreshing..." : "Refresh Risk Map"}
+      </Button>
+    </section>
+  )
 }
