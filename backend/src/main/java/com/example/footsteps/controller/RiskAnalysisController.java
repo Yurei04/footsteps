@@ -21,10 +21,6 @@ public class RiskAnalysisController {
         this.riskAnalysisService = riskAnalysisService;
     }
 
-    /**
-     * Get all latest risk hotspots by location
-     * Maps to: GET /api/risk
-     */
     @GetMapping
     public ResponseEntity<List<RiskHotspot>> getAllLatestHotspots() {
         try {
@@ -37,10 +33,6 @@ public class RiskAnalysisController {
         }
     }
 
-    /**
-     * Get a specific hotspot by ID
-     * Maps to: GET /api/risk/{id}
-     */
     @GetMapping("/{id}")
     public ResponseEntity<RiskHotspot> getHotspotById(@PathVariable String id) {
         try {
@@ -54,11 +46,7 @@ public class RiskAnalysisController {
         }
     }
 
-    /**
-     * Analyze a specific location
-     * Maps to: POST /api/risk/analyze
-     */
-    @PostMapping("/analyze")
+    @PostMapping
     public ResponseEntity<LocationAnalysis> analyzeLocation(@RequestBody AnalyzeLocationRequest request) {
         try {
             log.info("Analyzing location: {}", request.getLocation());
@@ -75,9 +63,23 @@ public class RiskAnalysisController {
         }
     }
 
-    /**
-     * Request body for analyze location endpoint
-     */
+    @PostMapping("/analyze")
+    public ResponseEntity<LocationAnalysis> analyzeLocationAlt(@RequestBody AnalyzeLocationRequest request) {
+        try {
+            log.info("Analyzing location (alternate route): {}", request.getLocation());
+            
+            if (request.getLocation() == null || request.getLocation().trim().isEmpty()) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            LocationAnalysis analysis = riskAnalysisService.analyzeLocation(request.getLocation());
+            return ResponseEntity.ok(analysis);
+        } catch (Exception e) {
+            log.error("Error analyzing location", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     @lombok.Data
     @lombok.NoArgsConstructor
     @lombok.AllArgsConstructor
