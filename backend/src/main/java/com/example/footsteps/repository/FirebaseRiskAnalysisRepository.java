@@ -76,20 +76,28 @@ public class FirebaseRiskAnalysisRepository implements RiskAnalysisRepository {
     @Override
     public Optional<RiskHotspot> findByLocation(String location) {
         try {
+            // Simple query without ordering - no index required
             QuerySnapshot snapshot = firestore.collection(COLLECTION_NAME)
                     .whereEqualTo("location", location)
-                    .orderBy("analyzed_at", com.google.cloud.firestore.Query.Direction.DESCENDING)
-                    .limit(1)
+                    .limit(10)  // Get recent docs
                     .get()
                     .get();
 
             if (!snapshot.isEmpty()) {
-                var doc = snapshot.getDocuments().get(0);
-                log.info("Found hotspot for location: {} with doc id: {}", location, doc.getId());
-                return Optional.of(mapToHotspot(doc.getId(), doc.getData()));
+                // Sort in memory instead of Firestore
+                var hotspot = snapshot.getDocuments()
+                        .stream()
+                        .map(doc -> mapToHotspot(doc.getId(), doc.getData()))
+                        .max((a, b) -> {
+                            LocalDateTime dateA = a.getAnalyzedAt() != null ? a.getAnalyzedAt() : a.getDate();
+                            LocalDateTime dateB = b.getAnalyzedAt() != null ? b.getAnalyzedAt() : b.getDate();
+                            if (dateA == null || dateB == null) return 0;
+                            return dateA.compareTo(dateB);
+                        });
+
+                return hotspot;
             }
 
-            log.warn("No hotspot found for location: {}", location);
             return Optional.empty();
 
         } catch (InterruptedException | ExecutionException e) {
