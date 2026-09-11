@@ -49,16 +49,24 @@ public class RiskAnalysisController {
     @PostMapping
     public ResponseEntity<LocationAnalysis> analyzeLocation(@RequestBody AnalyzeLocationRequest request) {
         try {
-            log.info("Analyzing location: {}", request.getLocation());
+            log.info("📍 POST /api/risk - Analyzing location: '{}'", request.getLocation());
             
             if (request.getLocation() == null || request.getLocation().trim().isEmpty()) {
+                log.warn("Empty location provided");
                 return ResponseEntity.badRequest().build();
             }
 
             LocationAnalysis analysis = riskAnalysisService.analyzeLocation(request.getLocation());
+            
+            log.info("✅ Analysis result for '{}': riskLevel={}, temp={}, humidity={}", 
+                    request.getLocation(), 
+                    analysis.getRiskLevel(), 
+                    analysis.getTemperature(), 
+                    analysis.getHumidity());
+            
             return ResponseEntity.ok(analysis);
         } catch (Exception e) {
-            log.error("Error analyzing location", e);
+            log.error("❌ Error analyzing location: {}", request.getLocation(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -74,6 +74,32 @@ public class FirebaseRiskAnalysisRepository implements RiskAnalysisRepository {
     }
 
     @Override
+    public Optional<RiskHotspot> findByLocation(String location) {
+        try {
+            QuerySnapshot snapshot = firestore.collection(COLLECTION_NAME)
+                    .whereEqualTo("location", location)
+                    .orderBy("analyzed_at", com.google.cloud.firestore.Query.Direction.DESCENDING)
+                    .limit(1)
+                    .get()
+                    .get();
+
+            if (!snapshot.isEmpty()) {
+                var doc = snapshot.getDocuments().get(0);
+                log.info("Found hotspot for location: {} with doc id: {}", location, doc.getId());
+                return Optional.of(mapToHotspot(doc.getId(), doc.getData()));
+            }
+
+            log.warn("No hotspot found for location: {}", location);
+            return Optional.empty();
+
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Error fetching risk analysis by location: {}", location, e);
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public List<RiskHotspot> findAll() {
         try {
             QuerySnapshot snapshot = firestore.collection(COLLECTION_NAME).get().get();
