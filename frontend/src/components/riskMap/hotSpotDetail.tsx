@@ -1,231 +1,241 @@
-"use client"
+'use client'
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
+import { RiskHotspotMapData } from '@/types/hotspots'
+import { fetchAllHotspots } from '@/lib/hotspots-api' 
+import { MapPin, AlertTriangle, Droplets, Wind, Gauge, Calendar, Compass } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
-interface Hotspot {
-  id: string
-  location: string
-  country?: string
-  latitude: number
-  longitude: number
-  riskLevel: string
-  riskType: string
-  precipitation: number
-  temperature: number
-  humidity: number
-  windSpeed: number
-  weatherCode: number | null
-  riskReason: string
-  date: string | null
-  analyzedAt: string | null
-}
-
+/**
+ * HotSpotDetails Component
+ * Displays details of the currently selected hotspot from the map
+ * Uses event listener to communicate with HotspotMap
+ */
 export default function HotSpotDetails() {
-  const [hotspots, setHotspots] = useState<Hotspot[]>([])
-  const [selectedHotspot, setSelectedHotspot] = useState<Hotspot | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [selectedHotspot, setSelectedHotspot] = useState<RiskHotspotMapData | null>(null)
+  const [allHotspots, setAllHotspots] = useState<RiskHotspotMapData[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchHotspots = async () => {
+    // Load all hotspots
+    const loadHotspots = async () => {
       try {
-        console.log("Fetching hotspot data...")
-        setIsLoading(true)
-
-        const res = await fetch("/api/risk")
-        const data = await res.json()
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch hotspot data")
-        }
-
-        console.log("Fetched hotspot data:", data)
-
-        setHotspots(data)
-
-        // Default to the first hotspot
+        const data = await fetchAllHotspots()
+        setAllHotspots(data)
+        // Auto-select first hotspot
         if (data.length > 0) {
           setSelectedHotspot(data[0])
         }
-
-        setError(null)
       } catch (error) {
-        console.error("Failed to fetch data:", error)
-        setError("Failed to load hotspot data. Please try again.")
+        console.error('Failed to load hotspots:', error)
       } finally {
-        setIsLoading(false)
+        setLoading(false)
       }
     }
 
-    fetchHotspots()
+    loadHotspots()
   }, [])
 
   useEffect(() => {
+    // Listen for hotspot selection from map
     const handleHotspotSelected = (event: Event) => {
       const customEvent = event as CustomEvent<{ id: string }>
+      const hotspotId = customEvent.detail?.id
 
-      const selectedId = customEvent.detail?.id
-
-      if (!selectedId) {
-        return
-      }
-
-      const selected = hotspots.find(
-        (spot) => spot.id === selectedId
-      )
-
-      if (selected) {
-        setSelectedHotspot(selected)
+      if (hotspotId && allHotspots.length > 0) {
+        const hotspot = allHotspots.find((h) => h.id === hotspotId)
+        if (hotspot) {
+          setSelectedHotspot(hotspot)
+        }
       }
     }
 
-    window.addEventListener(
-      "hotspot-selected",
-      handleHotspotSelected
-    )
+    window.addEventListener('hotspot-selected', handleHotspotSelected)
+    return () => window.removeEventListener('hotspot-selected', handleHotspotSelected)
+  }, [allHotspots])
 
-    return () => {
-      window.removeEventListener(
-        "hotspot-selected",
-        handleHotspotSelected
-      )
+  const getRiskColor = (level: string) => {
+    const colors: Record<string, string> = {
+      CRITICAL: 'text-red-700 bg-red-50 dark:bg-red-950',
+      HIGH: 'text-red-600 bg-red-50 dark:bg-red-950',
+      MEDIUM: 'text-yellow-600 bg-yellow-50 dark:bg-yellow-950',
+      LOW: 'text-green-600 bg-green-50 dark:bg-green-950',
     }
-  }, [hotspots])
-
-  if (isLoading) {
-    return (
-      <div className="p-4">
-        <p>Loading hotspot data...</p>
-      </div>
-    )
+    return colors[level] || 'text-gray-600'
   }
 
-  if (error) {
+  if (loading) {
     return (
-      <div className="p-4">
-        <p className="text-red-600">{error}</p>
-      </div>
-    )
-  }
-
-  if (hotspots.length === 0) {
-    return (
-      <div className="p-4">
-        <p>No hotspot data available.</p>
+      <div className="space-y-3">
+        <div className="h-4 bg-muted rounded animate-pulse" />
+        <div className="h-4 bg-muted rounded animate-pulse w-3/4" />
+        <div className="h-20 bg-muted rounded animate-pulse" />
       </div>
     )
   }
 
   if (!selectedHotspot) {
     return (
-      <div className="p-4">
-        <p>Select a hotspot on the map.</p>
+      <div className="text-center py-6 text-muted-foreground">
+        <MapPin className="w-8 h-8 mx-auto mb-2 opacity-50" />
+        <p className="text-sm">Click on a marker to view details</p>
       </div>
     )
   }
 
-  const spot = selectedHotspot
-
   return (
-    <div
-      className="p-4"
-      role="region"
-      aria-label="Environmental risk hotspot details"
-    >
-      <p
-        id="hotspot-intro"
-        className="sr-only"
-      >
-        Details for the selected environmental risk hotspot.
-      </p>
-
-      <article>
-        <div className="space-y-4">
-
-          <header>
-            <h2 className="font-thin tracking-tight text-xs text-gray-500 uppercase">
-              Hotspot Detail
-            </h2>
-
-            <h3 className="font-bold text-4xl mb-3">
-              {spot.location}
+    <div className="space-y-4">
+      {/* Location Header */}
+      <div className="space-y-2">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1">
+            <h3 className="font-bold text-lg text-foreground flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-primary" />
+              {selectedHotspot.location}
             </h3>
-
-            {spot.country && (
-              <p className="text-sm text-gray-500 mb-2">
-                {spot.country}
-              </p>
+            {selectedHotspot.country && (
+              <p className="text-xs text-muted-foreground">{selectedHotspot.country}</p>
             )}
+          </div>
+          <div className={`px-2.5 py-1 rounded-full text-xs font-bold whitespace-nowrap ${getRiskColor(selectedHotspot.riskLevel)}`}>
+            {selectedHotspot.riskLevel}
+          </div>
+        </div>
 
-            <p className="text-lg">
-              <span className="font-semibold text-4xl">
-                {spot.riskLevel}
-              </span>
-            </p>
+        {/* Coordinates */}
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Compass className="w-3 h-3" />
+          <span>{selectedHotspot.latitude.toFixed(4)}°N, {selectedHotspot.longitude.toFixed(4)}°E</span>
+        </div>
+      </div>
 
-            <p className="font-thin tracking-widest text-xs mb-4 text-gray-600">
-              {spot.riskType}
-            </p>
+      {/* Risk Info */}
+      <div className="space-y-2">
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-1">
+            Risk Type
+          </p>
+          <p className="text-sm font-medium text-foreground">{selectedHotspot.riskType}</p>
+        </div>
 
-            <p className="text-sm text-gray-600">
-              {spot.riskReason}
-            </p>
-          </header>
+        <div>
+          <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold mb-1">
+            Assessment
+          </p>
+          <p className="text-sm text-foreground leading-relaxed">{selectedHotspot.riskReason}</p>
+        </div>
+      </div>
 
-          <dl className="grid grid-cols-2 gap-4">
-
-            <div>
-              <dt className="font-semibold text-gray-600">
-                Rainfall
-              </dt>
-              <dd className="text-right font-medium">
-                {spot.precipitation} mm
-              </dd>
+      {/* Weather Data */}
+      <div className="space-y-2">
+        <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold">
+          Current Conditions
+        </p>
+        <div className="grid grid-cols-2 gap-2">
+          {/* Temperature */}
+          <div className="bg-muted/50 rounded-lg p-3 space-y-1">
+            <div className="flex items-center gap-2">
+              <Gauge className="w-3.5 h-3.5 text-red-500" />
+              <span className="text-xs text-muted-foreground">Temperature</span>
             </div>
+            <p className="font-bold text-sm text-foreground">{selectedHotspot.temperature.toFixed(1)}°C</p>
+          </div>
 
-            <div>
-              <dt className="font-semibold text-gray-600">
-                Temperature
-              </dt>
-              <dd className="text-right font-medium">
-                {spot.temperature} °C
-              </dd>
+          {/* Humidity */}
+          <div className="bg-muted/50 rounded-lg p-3 space-y-1">
+            <div className="flex items-center gap-2">
+              <Droplets className="w-3.5 h-3.5 text-blue-500" />
+              <span className="text-xs text-muted-foreground">Humidity</span>
             </div>
+            <p className="font-bold text-sm text-foreground">{Math.round(selectedHotspot.humidity)}%</p>
+          </div>
 
-            <div>
-              <dt className="font-semibold text-gray-600">
-                Humidity
-              </dt>
-              <dd className="text-right font-medium">
-                {spot.humidity}%
-              </dd>
+          {/* Precipitation */}
+          <div className="bg-muted/50 rounded-lg p-3 space-y-1">
+            <div className="flex items-center gap-2">
+              <Droplets className="w-3.5 h-3.5 text-sky-500" />
+              <span className="text-xs text-muted-foreground">Rainfall</span>
             </div>
+            <p className="font-bold text-sm text-foreground">{selectedHotspot.precipitation.toFixed(1)} mm</p>
+          </div>
 
-            <div>
-              <dt className="font-semibold text-gray-600">
-                Wind Speed
-              </dt>
-              <dd className="text-right font-medium">
-                {spot.windSpeed} km/h
-              </dd>
+          {/* Wind */}
+          <div className="bg-muted/50 rounded-lg p-3 space-y-1">
+            <div className="flex items-center gap-2">
+              <Wind className="w-3.5 h-3.5 text-purple-500" />
+              <span className="text-xs text-muted-foreground">Wind Speed</span>
             </div>
+            <p className="font-bold text-sm text-foreground">{selectedHotspot.windSpeed.toFixed(1)} km/h</p>
+          </div>
+        </div>
+      </div>
 
-          </dl>
+      {/* Timestamp */}
+      {selectedHotspot.analyzedAt && (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2 border-t border-border">
+          <Calendar className="w-3 h-3" />
+          <span>Last analyzed: {new Date(selectedHotspot.analyzedAt).toLocaleString()}</span>
+        </div>
+      )}
 
-          <div className="text-xs text-gray-500">
-            <p>
-              Coordinates: {spot.latitude}, {spot.longitude}
-            </p>
+      {/* Action Buttons */}
+      <div className="grid grid-cols-2 gap-2 pt-2">
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="text-xs h-8"
+          onClick={() => {
+            // Could open detailed analysis page
+            window.location.href = `/risk/${selectedHotspot.id}`
+          }}
+        >
+          View Full Report
+        </Button>
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="text-xs h-8"
+          onClick={() => {
+            // Copy coordinates to clipboard
+            const coords = `${selectedHotspot.latitude}, ${selectedHotspot.longitude}`
+            navigator.clipboard.writeText(coords)
+          }}
+        >
+          Copy Coords
+        </Button>
+      </div>
 
-            {spot.date && (
-              <p>
-                Recorded: {new Date(spot.date).toLocaleString()}
+      {/* Quick Navigation */}
+      {allHotspots.length > 1 && (
+        <div className="space-y-2 pt-2 border-t border-border">
+          <p className="text-xs text-muted-foreground uppercase tracking-wide font-semibold">
+            Other Hotspots ({allHotspots.length})
+          </p>
+          <div className="space-y-1 max-h-32 overflow-y-auto">
+            {allHotspots.slice(0, 5).map((hotspot) => (
+              <button
+                key={hotspot.id}
+                onClick={() => setSelectedHotspot(hotspot)}
+                className={`w-full text-left px-2 py-1.5 rounded text-xs transition-colors ${
+                  selectedHotspot.id === hotspot.id
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted hover:bg-muted/80 text-foreground'
+                }`}
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium truncate">{hotspot.location}</span>
+                  <span className="text-[10px] font-bold flex-shrink-0">{hotspot.riskLevel}</span>
+                </div>
+              </button>
+            ))}
+            {allHotspots.length > 5 && (
+              <p className="text-[10px] text-muted-foreground text-center py-1">
+                +{allHotspots.length - 5} more
               </p>
             )}
           </div>
-
         </div>
-      </article>
+      )}
     </div>
   )
 }

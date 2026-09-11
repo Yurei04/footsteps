@@ -21,40 +21,25 @@ interface InfoCardDataProps {
 
 const numLevel: Record<number, {
   label: string
-  bg: string
-  border: string
-  text: string
+  className: string
+  description: string
 }> = {
   1: {
     label: "LOW RISK",
-    bg: "bg-green-100",
-    border: "border border-green-500",
-    text: "text-green-800",
+    className: "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100 border-green-500",
+    description: "Low risk level. Situation is stable.",
   },
-
   2: {
     label: "MEDIUM RISK",
-    bg: "bg-yellow-100",
-    border: "border border-yellow-500",
-    text: "text-yellow-800",
+    className: "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100 border-yellow-500",
+    description: "Medium risk level. Monitor closely.",
   },
-
   3: {
     label: "HIGH RISK",
-    bg: "bg-red-100",
-    border: "border border-red-500",
-    text: "text-red-800",
+    className: "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100 border-red-500",
+    description: "High risk level. Immediate action may be needed.",
   },
 }
-
-const getRiskDescription = (level: number) => {
-  const descriptions: Record<number, string> = {
-    1: "Low risk level. Situation is stable.",
-    2: "Medium risk level. Monitor closely.",
-    3: "High risk level. Immediate action may be needed.",
-  };
-  return descriptions[level] || "Unknown risk level";
-};
 
 export default function InfoHomeCard({ data }: InfoCardDataProps) {
   return (
@@ -81,13 +66,13 @@ export default function InfoHomeCard({ data }: InfoCardDataProps) {
             aria-describedby={`card-desc-${card.id}`}
           >
             <Card 
-              className="p-8 bg-[#FFF9F9] hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-blue-500"
+              className="p-8 bg-card hover:shadow-md transition-shadow focus-within:ring-2 focus-within:ring-primary border border-border"
               role="article"
             >
               <div className="grid grid-cols-[2fr_.9fr] gap-2 justify-between mb-4">
                 <div className="flex flex-col gap-2">
                   <CardHeader 
-                    className="flex text-black/50 text-md p-0 tracking-widest"
+                    className="flex text-muted-foreground text-md p-0 tracking-widest"
                     aria-label="Status indicator"
                   >
                     LIVE 
@@ -100,13 +85,14 @@ export default function InfoHomeCard({ data }: InfoCardDataProps) {
                     </span>
                   </CardHeader>
                   <CardTitle 
-                    className="text-2xl"
+                    className="text-2xl text-foreground"
                     id={`card-title-${card.id}`}
                   >
                     {card.title}
                   </CardTitle>
                   <CardDescription 
                     id={`card-desc-${card.id}`}
+                    className="text-muted-foreground"
                   >
                     {card.description}
                   </CardDescription>
@@ -116,10 +102,10 @@ export default function InfoHomeCard({ data }: InfoCardDataProps) {
                     className={`
                       text-[10px]
                       px-4 py-3 
-                      ${numLevel[card.level].bg}
-                      ${numLevel[card.level].text}
+                      border
+                      ${numLevel[card.level].className}
                     `}
-                    aria-label={`Risk level: ${numLevel[card.level].label}. ${getRiskDescription(card.level)}`}
+                    aria-label={`Risk level: ${numLevel[card.level].label}. ${numLevel[card.level].description}`}
                     role="status"
                   >
                     {numLevel[card.level].label}
@@ -128,29 +114,29 @@ export default function InfoHomeCard({ data }: InfoCardDataProps) {
               </div>
 
               <Separator 
-                className="border border-black/10"
+                className="border-border"
                 role="presentation"
                 aria-hidden="true"
               />
 
               <div className="flex justify-between gap-2 mt-4">
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-muted-foreground">
                   Suggested Response
                 </p>
                 <Link 
                   href={card.href}
                   aria-label={`Open response plan for ${card.title}`}
-                  className="focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+                  className="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-card rounded transition-all"
                 >
                   <Button 
-                    className="cursor-pointer focus:outline-none"
+                    className="cursor-pointer focus:outline-none hover:bg-muted transition-colors text-foreground"
                     variant="ghost"
                     aria-label={`Open plan for ${card.title}: ${numLevel[card.level].label}`}
                   >
                     Open Plan 
                     <ArrowRight 
                       aria-hidden="true"
-                      className="ml-2"
+                      className="ml-2 w-4 h-4 transition-transform hover:translate-x-1"
                     />
                   </Button>
                 </Link>

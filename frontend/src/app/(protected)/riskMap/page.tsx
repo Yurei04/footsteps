@@ -1,12 +1,12 @@
 import HotSpotDetails from "@/components/riskMap/hotSpotDetail"
+import { HotspotStats } from "@/components/riskMap/hotspotStats"
 import MapRefresh from "@/components/riskMap/mapRefresh"
+import { HotspotMap } from "@/components/riskMap/riskCompMap"
 import { Card } from "@/components/ui/card"
 import { pageMetadata } from "@/lib/metadata"
 import { Metadata } from "next"
 import dynamic from "next/dynamic"
 import Link from "next/link"
-
-const DynamicMap = dynamic(() => import("@/components/riskMap/riskCompMap"))
 
 export const metadata: Metadata = pageMetadata(
   "Risk Map",
@@ -92,7 +92,16 @@ export default function RiskMap() {
                 aria-live="polite"
                 aria-label="Interactive environmental risk map"
               >
-                <DynamicMap />
+                      <div className="border-b border-border">
+        <div className="container mx-auto px-4 py-6">
+          <HotspotStats />
+        </div>
+      </div>
+ 
+      {/* Map Section */}
+      <div className="w-full">
+        <HotspotMap height="h-[600px]" center={[0, 20]} zoom={2} />
+      </div>
               </div>
             </div>
           </section>

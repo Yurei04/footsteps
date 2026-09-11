@@ -1,26 +1,21 @@
-import { AppSidebar } from "@/components/dashboard/sidebar"
-import UpperNav from "@/components/dashboard/upperNav"
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+import type { Metadata, Viewport } from "next"
+import { defaultMetadata, defaultViewport } from "@/lib/metadata"
+import { ThemeProvider } from "@/components/theme/theme-provider"
+import { CombinedNavigation } from "@/components/dashboard/navigation"
 
-export default function DashboardLayout({
+export const metadata: Metadata = defaultMetadata
+export const viewport: Viewport = defaultViewport
+
+export default function Layout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-
-      <SidebarInset>
-        <UpperNav />
-
-        <main className="px-8 pb-10">
-          {children}
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <ThemeProvider>
+      <CombinedNavigation>
+        {children}
+      </CombinedNavigation>
+    </ThemeProvider>
   )
 }

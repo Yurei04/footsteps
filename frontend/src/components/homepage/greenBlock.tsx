@@ -3,8 +3,8 @@ import InfoHomeCard from "./infoHomeCard"
 const cardDataList = [
   {
     id: 1,
-    title: "Rain Alert Verified",
-    description: "Four sources agree on rainfall though the afternoon",
+    title: "Rainfall alert verified",
+    description: "Four sources agree on intense rainfall through the afternoon.",
     location: "MARIKINA BASIN",
     href: "/analytics",
     level: 3
@@ -14,7 +14,7 @@ const cardDataList = [
 export default function GreenBlock() {
   return (
     <section 
-      className="flex flex-col rounded-4xl border w-[80%] h-[500px] justify-end p-16 m-4 bg-[#D5FAD6]"
+      className="flex flex-col rounded-3xl border border-border w-[80%] h-[500px] justify-end p-16 m-4 bg-card shadow-lg hover:shadow-xl transition-shadow"
       role="region"
       aria-labelledby="green-block-heading"
       aria-describedby="green-block-description"

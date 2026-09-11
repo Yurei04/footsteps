@@ -1,5 +1,6 @@
 "use client"
 
+import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
@@ -33,7 +34,7 @@ interface CombinedNavigationProps {
 const dashboardLinks: DashboardLink[] = [
   {
     title: "Dashboard",
-    link: "/riskMap",
+    link: "/dashboard",
     icon: <LayoutDashboard className="w-4 h-4" />,
   },
   {
@@ -52,29 +53,14 @@ const dashboardLinks: DashboardLink[] = [
     icon: <Brain className="w-4 h-4" />,
   },
   {
-    title: "Monitoring",
-    link: "/monitoring",
-    icon: <Eye className="w-4 h-4" />,
-  },
-  {
     title: "News & Insights",
     link: "/newFeed",
     icon: <Lightbulb className="w-4 h-4" />,
   },
   {
-    title: "Impact Tracker",
-    link: "/impactTracker",
-    icon: <Target className="w-4 h-4" />,
-  },
-  {
     title: "Resources",
     link: "/resources",
     icon: <BookOpen className="w-4 h-4" />,
-  },
-  {
-    title: "Settings",
-    link: "/settings",
-    icon: <Settings className="w-4 h-4" />,
   },
 ]
 
@@ -83,7 +69,7 @@ export function CombinedNavigation({
 }: CombinedNavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(true)
-
+  const pathname = usePathname()
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Mobile Navigation */}
@@ -231,29 +217,43 @@ export function CombinedNavigation({
             aria-label="Main menu"
           >
             <ul className="space-y-2">
-              {dashboardLinks.map((item) => (
-                <li key={item.title}>
-                  <Link
-                    href={item.link}
-                    className={`flex items-center gap-3 py-2.5 rounded-lg text-foreground hover:bg-muted transition-colors text-sm font-medium ${
-                      sidebarOpen
-                        ? "px-3"
-                        : "px-0 justify-center"
-                    }`}
-                    title={!sidebarOpen ? item.title : undefined}
-                  >
-                    <span className="text-muted-foreground flex-shrink-0">
-                      {item.icon}
-                    </span>
+              {dashboardLinks.map((item) => {
+                const isActive = pathname === item.link
 
-                    {sidebarOpen && (
-                      <span className="truncate">
-                        {item.title}
+                return (
+                  <li key={item.title}>
+                    <Link
+                      href={item.link}
+                      className={`flex items-center gap-3 py-2.5 rounded-lg transition-colors text-sm font-medium ${
+                        isActive
+                          ? "bg-primary text-primary-foreground"
+                          : "text-foreground hover:bg-secondary"
+                      } ${
+                        sidebarOpen
+                          ? "px-3"
+                          : "px-0 justify-center"
+                      }`}
+                      title={!sidebarOpen ? item.title : undefined}
+                    >
+                      <span
+                        className={`flex-shrink-0 ${
+                          isActive
+                            ? "text-primary-foreground"
+                            : "text-muted-foreground"
+                        }`}
+                      >
+                        {item.icon}
                       </span>
-                    )}
-                  </Link>
-                </li>
-              ))}
+
+                      {sidebarOpen && (
+                        <span className="truncate">
+                          {item.title}
+                        </span>
+                      )}
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
           </nav>
 
