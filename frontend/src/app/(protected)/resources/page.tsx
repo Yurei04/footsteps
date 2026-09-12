@@ -1,4 +1,3 @@
-
 import ResourceFeedComp from "@/components/resources/resourceFeedComp"
 import { pageMetadata } from "@/lib/metadata"
 import { Metadata } from "next"
@@ -12,28 +11,28 @@ export const metadata: Metadata = pageMetadata(
 export default function Resources() {
     return (
         <div 
-          className="w-full"
+          className="w-full bg-[var(--background)]"
           role="application"
           aria-label="Reference materials and resources application"
         >
             <header 
-              className="flex-col p-4 pl-8 mb-4 justify-between"
+              className="flex-col p-4 pl-8 my-4"
               aria-describedby="resources-description"
             >
                 <p 
-                  className="font-thin text-md text-[var(--text-muted)] uppercase tracking-widest"
+                  className="font-thin text-[11px] text-primary uppercase tracking-widest"
                   aria-label="Page section"
                 >
                   RESOURCES
                 </p>
                 <h1 
-                  className="text-4xl text-black"
+                  className="text-6xl text-foregroun"
                   id="page-title"
                 >
                   Reference materials.
                 </h1>
                 <p 
-                  className="line-clamp-3"
+                  className="line-clamp-3 text-muted-foreground mt-2"
                   id="resources-description"
                 >
                   Protocols, frameworks, and technical references for field teams and system operators.

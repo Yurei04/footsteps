@@ -1,7 +1,7 @@
 'use client'
 
 import { LocationAnalysis } from '@/lib/api'
-import { AlertTriangle, Droplets, Wind, Gauge } from 'lucide-react'
+import { AlertTriangle, Droplets, Wind, Gauge, FileWarning } from 'lucide-react'
 import { BarGraph } from './barGraph'
 
 interface SearchResultsProps {
@@ -74,21 +74,21 @@ export function SearchResults({ result }: SearchResultsProps) {
   }
 
   return (
-    <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 pb-8 sm:pb-12">
-      <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+    <section className="w-full border-t py-8 px-3 sm:px-4 md:px-6 lg:px-8 sm:pb-12">
+      <div className="mx-auto space-y-6 sm:space-y-8">
         {/* Location Header */}
         <div className="space-y-3 sm:space-y-4">
-          <p className="text-xs text-primary uppercase tracking-widest font-semibold mb-2">
+          <p className="text-[11px] text-primary uppercase tracking-widest mb-2">
             Analysis Result
           </p>
           <div className="space-y-1 sm:space-y-2">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold break-words">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl wrap-break-word">
               {result.location || 'Unknown Location'}
             </h2>
             {result.country && (
               <p className="text-sm sm:text-base text-muted-foreground">{result.country}</p>
             )}
-            <p className="text-xs sm:text-sm text-muted-foreground">
+            <p className="text-[9px] tracking-widest sm:text-sm text-muted-foreground">
               {result.latitude?.toFixed(4) || 'N/A'}°N, {result.longitude?.toFixed(4) || 'N/A'}°E
               {result.date && ` • Updated ${new Date(result.date).toLocaleString()}`}
             </p>
@@ -100,7 +100,7 @@ export function SearchResults({ result }: SearchResultsProps) {
           <div className="flex items-center gap-2 mb-3 sm:mb-4">
             <Gauge className="w-4 sm:w-5 h-4 sm:h-5 text-primary flex-shrink-0" aria-hidden="true" />
             <h3 
-              className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest font-semibold"
+              className="text-[11px] text-muted-foreground uppercase tracking-widest"
               id="weather-section"
             >
               Current Weather • {result.riskType || 'Normal Conditions'}
@@ -108,7 +108,7 @@ export function SearchResults({ result }: SearchResultsProps) {
           </div>
 
           <div 
-            className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4"
+            className="grid grid-cols-4 gap-2 sm:gap-3 md:gap-4"
             role="region"
             aria-labelledby="weather-section"
           >
@@ -149,9 +149,9 @@ export function SearchResults({ result }: SearchResultsProps) {
         {/* Environmental Risks Section */}
         <div className="space-y-3 sm:space-y-4">
           <div className="flex items-center gap-2 mb-3 sm:mb-4">
-            <AlertTriangle className="w-4 sm:w-5 h-4 sm:h-5 text-primary flex-shrink-0" aria-hidden="true" />
+
             <h3 
-              className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest font-semibold"
+              className="text-[11px] text-muted-foreground uppercase tracking-widest font-semibold"
               id="risks-section"
             >
               Environmental Risks
@@ -159,12 +159,12 @@ export function SearchResults({ result }: SearchResultsProps) {
           </div>
 
           <div 
-            className="bg-card border rounded-xl sm:rounded-2xl p-4 sm:p-6"
+            className="bg-card/50 border rounded-xl sm:rounded-2xl p-4 max-w-4xl sm:p-6"
             role="region"
             aria-labelledby="risks-section"
           >
-            <div className="flex gap-3 sm:gap-4 md:gap-6">
-              <div className="text-2xl sm:text-3xl flex-shrink-0" aria-hidden="true">⚠️</div>
+            <div className="w-full flex gap-3 sm:gap-4 md:gap-6">
+              <div className="text-2xl sm:text-3xl flex-shrink-0" aria-hidden="true"><FileWarning /> </div>
               <div className="flex-1 min-w-0">
                 <h4 className="text-base sm:text-lg font-bold mb-2">
                   {result.riskType || 'Unknown Risk'}
@@ -200,15 +200,10 @@ export function SearchResults({ result }: SearchResultsProps) {
           </div>
         </div>
 
-        {/* Environmental Trends Section */}
         <div className="space-y-3 sm:space-y-4">
           <div className="flex items-center gap-2 mb-3 sm:mb-4">
-            <Wind
-              className="w-4 sm:w-5 h-4 sm:h-5 text-primary flex-shrink-0"
-              aria-hidden="true"
-            />
             <h3
-              className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest font-semibold"
+              className="text-[11px] text-muted-foreground uppercase tracking-widest font-semibold"
               id="trends-section"
             >
               30-Day Environmental Trends
@@ -221,7 +216,7 @@ export function SearchResults({ result }: SearchResultsProps) {
             aria-labelledby="trends-section"
           >
             {/* Rainfall Chart */}
-            <div className="bg-card border border-border rounded-xl sm:rounded-2xl p-4 sm:p-6 w-full overflow-hidden">
+            <div className="bg-card/50 border border-border rounded-xl sm:rounded-2xl p-4 sm:p-6 w-full overflow-hidden">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-5 gap-2">
                 <div className="min-w-0">
                   <h4 className="text-base sm:text-lg font-semibold">🌧️ Rainfall Trends</h4>
@@ -252,7 +247,7 @@ export function SearchResults({ result }: SearchResultsProps) {
             </div>
 
             {/* Temperature Chart */}
-            <div className="bg-card border border-border rounded-xl sm:rounded-2xl p-4 sm:p-6 w-full overflow-hidden">
+            <div className="bg-card/50 border border-border rounded-xl sm:rounded-2xl p-4 sm:p-6 w-full overflow-hidden">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-5 gap-2">
                 <div className="min-w-0">
                   <h4 className="text-base sm:text-lg font-semibold">🌡️ Temperature Trends</h4>
@@ -286,12 +281,11 @@ export function SearchResults({ result }: SearchResultsProps) {
         {/* AI Action Plan Section */}
         <div className="space-y-3 sm:space-y-4">
             <div className="flex items-center gap-2 mb-3 sm:mb-4">
-              <Droplets className="w-4 sm:w-5 h-4 sm:h-5 text-primary flex-shrink-0" aria-hidden="true" />
               <h3
-                className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest font-semibold"
+                className="text-[11px] text-muted-foreground uppercase tracking-widest font-semibold"
                 id="actions-section"
               >
-                AI Action Plan
+                Recommended Response
               </h3>
             </div>
 
@@ -300,10 +294,6 @@ export function SearchResults({ result }: SearchResultsProps) {
               role="region"
               aria-labelledby="actions-section"
             >
-              <h4 className="text-base sm:text-lg font-bold mb-3 sm:mb-4">
-                Recommended Response
-              </h4>
-
               <div className="prose prose-sm dark:prose-invert max-w-none">
                 <p className="text-xs sm:text-sm text-foreground leading-relaxed whitespace-pre-wrap break-words">
                   {result.aiActionPlan || 'No action plan available'}
@@ -326,18 +316,18 @@ interface WeatherCardProps {
 function WeatherCard({ icon, label, value, sublabel }: WeatherCardProps) {
   return (
     <div 
-      className="bg-card border border-border rounded-lg sm:rounded-xl p-3 sm:p-4 md:p-6"
+      className="bg-card/50 border border-border rounded-lg sm:rounded-xl px-6 py-4 sm:p-4 md:p-6"
       role="region"
       aria-label={`${label}: ${value}`}
     >
       <div className="flex items-center gap-2 mb-1 sm:mb-2">
         <span className="text-lg sm:text-2xl flex-shrink-0" aria-hidden="true">{icon}</span>
-        <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold truncate">
+        <p className="text-[11px] text-muted-foreground uppercase tracking-widest ">
           {label}
         </p>
       </div>
-      <p className="text-lg sm:text-2xl md:text-3xl font-bold mb-0.5 sm:mb-1 break-words">{value}</p>
-      <p className="text-xs text-muted-foreground">{sublabel}</p>
+      <p className="text-lg sm:text-2xl md:text-3xl mb-0.5 sm:mb-1 break-words">{value}</p>
+      <p className="text-[12px] text-muted-foreground">{sublabel}</p>
     </div>
   )
 }

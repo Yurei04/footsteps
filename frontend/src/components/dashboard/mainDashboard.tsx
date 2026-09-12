@@ -48,27 +48,31 @@ export function MainContent() {
     <div className="flex flex-col min-h-screen w-full">
       {/* Search Section */}
       <section className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-12">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto">
           {/* Header */}
           <div className="mb-6 sm:mb-8">
             <p 
-              className="text-xs sm:text-sm text-primary uppercase tracking-widest font-semibold mb-2 sm:mb-3"
+              className="text-[9px] text-primary uppercase tracking-widest mb-2 sm:mb-3"
               id="page-intro"
             >
               Environmental Intelligence
             </p>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-3 sm:mb-4">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tighter mb-3 sm:mb-4">
               Understand the risk <br className="hidden sm:block" /> before it becomes an <br className="hidden sm:block" /> impact.
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl">
+            <p className="text-md text-muted-foreground max-w-2xl">
               Search a location to analyze current weather conditions, environmental risks, 
               and recommended actions.
             </p>
           </div>
-
-          {/* Search Form */}
-          <form onSubmit={handleSearch} className="space-y-2 sm:space-y-3">
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full">
+          <form onSubmit={handleSearch} className="w-full space-y-3 sm:space-y-4">
+            <p
+              id="search-help"
+              className="text-[9px] tracking-widest text-muted-foreground uppercase"
+            >
+              Search a location
+            </p>
+            <div className="flex w-1/2 flex-col gap-3 sm:flex-row sm:gap-4">
               <Input
                 type="text"
                 placeholder="Enter a city or location"
@@ -76,31 +80,53 @@ export function MainContent() {
                 onChange={(e) => setSearchInput(e.target.value)}
                 aria-label="Search for a location"
                 aria-describedby="search-help"
-                className="flex-1 bg-card border-border text-foreground placeholder:text-muted-foreground text-sm sm:text-base py-2 sm:py-2.5"
+                className="h-11 w-full flex-1 bg-card px-4 text-base text-foreground placeholder:text-muted-foreground sm:h-12"
               />
+
               <Button
                 type="submit"
                 disabled={loading}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground whitespace-nowrap text-sm sm:text-base py-2 sm:py-2.5"
+                className="h-11 w-full bg-primary px-5 text-base text-primary-foreground hover:bg-primary/90 sm:h-12 sm:w-auto sm:min-w-32 sm:px-6"
                 aria-busy={loading}
               >
-                <Search className="w-4 h-4 mr-2 flex-shrink-0" aria-hidden="true" />
-                {loading ? 'Analyzing...' : 'Analyze'}
+                <Search
+                  className="mr-2 h-4 w-4 flex-shrink-0"
+                  aria-hidden="true"
+                />
+                {loading ? "Analyzing..." : "Analyze"}
               </Button>
             </div>
-            <p id="search-help" className="text-xs text-muted-foreground">
-              Enter any city or location name to begin analysis
-            </p>
+
             {error && (
-              <div 
-                role="alert" 
-                className="text-xs sm:text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-lg p-3 sm:p-4 mt-2"
+              <div
+                role="alert"
+                className="mt-2 rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-xs text-destructive sm:p-4 sm:text-sm"
               >
-                <p className="font-semibold mb-1">Error</p>
+                <p className="mb-1 font-semibold">Error</p>
                 <p className="break-words">{error}</p>
               </div>
             )}
           </form>
+          <div className="flex flex-wrap items-center gap-2 mt-4">
+            <span className="text-xs text-muted-foreground sm:text-sm">
+              Try:
+            </span>
+
+            {["Manila", "Baguio City", "Cebu City", "Davao City", "Quezon City"].map(
+              (location) => (
+                <button
+                  key={location}
+                  type="button"
+                  onClick={() => {
+                    setSearchInput(location);
+                  }}
+                  className="rounded-full border border-border bg-card/50 px-3 py-1.5 text-xs text-muted-foreground transition-colors duration-200 hover:border-[var(--accent)]/50 hover:bg-[var(--accent)]/10 hover:text-[var(--accent)] sm:text-sm"
+                >
+                  {location}
+                </button>
+              )
+            )}
+          </div>
         </div>
       </section>
 

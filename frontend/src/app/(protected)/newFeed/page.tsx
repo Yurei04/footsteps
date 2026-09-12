@@ -11,35 +11,33 @@ export const metadata: Metadata = pageMetadata(
 export default function News() {
     return (
         <div 
-          className="w-full"
+          className="w-full bg-background p-4"
           role="application"
           aria-label="News and insights feed application"
         >
             <header 
-              className="flex-col p-4 pl-8 mb-4"
+              className="flex-col p-4 pl-8 my-4"
               aria-describedby="news-description"
             >
                 <p 
-                  className="font-thin text-md text-[var(--text-muted)] uppercase tracking-widest"
+                  className="font-thin text-[11px] text-primary uppercase tracking-widest"
                   aria-label="Page section"
                 >
-                    NEWS & INSIGHTS
+                    NEWS  &  INSIGHTS  ·  GLOBAL HOTSPOTS
                 </p>
 
                 <h1 
-                  className="text-4xl text-black"
+                  className="text-6xl text-forefround"
                   id="page-title"
                 >
-                    The local story, live.
+                    The global story, live.
                 </h1>
 
                 <p 
-                  className="line-clamp-3"
+                  className="line-clamp-3 w-1/2 text-muted-foreground mt-2"
                   id="news-description"
                 >
-                    National and local signals matched to active conditions.
-                    Curated public reports are matched against active
-                    environmental conditions.
+                    Public reporting matched against the 8 active Risk Map hotspots — so the response team sees what weather data alone cannot explain.
                 </p>
             </header>
 

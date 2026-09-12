@@ -136,7 +136,13 @@ export function HotspotMap({
           />
         )}
 
-        <MapControls />
+        <MapControls 
+          position="top-right"
+          showZoom
+          showCompass
+          showLocate
+          showFullscreen
+        />
       </Map>
 
       {/* Loading overlay */}

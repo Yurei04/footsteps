@@ -10,13 +10,13 @@ interface ResourceData {
     link: string
 }
 
-export default function ResourceFeedComp () {
+export default function ResourceFeedComp() {
     const [resource, setResources] = useState<ResourceData[]>([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-         const fetchResource = async () => {
+        const fetchResource = async () => {
             try {
                 console.log("Fetching resources...")
                 const res = await fetch("/api/resources")
@@ -34,7 +34,7 @@ export default function ResourceFeedComp () {
         fetchResource()
     }, [])
 
-    return (       
+    return (
         <div 
           className="p-4"
           role="region"
@@ -60,7 +60,7 @@ export default function ResourceFeedComp () {
                   role="status"
                   aria-live="polite"
                   aria-label="Loading resources"
-                  className="text-center py-12 text-gray-500"
+                  className="text-center py-12 text-[var(--text-muted)]"
                 >
                     Loading resources...
                 </div>
@@ -76,7 +76,7 @@ export default function ResourceFeedComp () {
                 <div 
                   role="status"
                   aria-live="polite"
-                  className="text-center py-12 text-gray-500"
+                  className="text-center py-12 text-[var(--text-muted)]"
                 >
                     No resources available at this time.
                 </div>

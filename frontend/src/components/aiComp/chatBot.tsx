@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { ShieldAlert } from "lucide-react";
+
 import ChatMessages from "./chatMessage";
 import ChatInput from "./chatInput";
 
@@ -10,148 +12,257 @@ interface Message {
   content: string;
 }
 
+interface RiskHotspotMapData {
+  id: string;
+  location: string;
+  country?: string;
+  latitude: number;
+  longitude: number;
+  riskLevel: string;
+  riskType: string;
+  riskReason: string;
+  temperature: number;
+  humidity: number;
+  precipitation: number;
+  windSpeed: number;
+  analyzedAt: string;
+}
+
+// Initialize messages from localStorage on first render
+const initializeMessages = (): Message[] => {
+  try {
+    const savedMessages = localStorage.getItem("chatMessages");
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  } catch (err) {
+    console.error("Failed to load chat history:", err);
+    return [];
+  }
+};
+
+// Initialize theme from localStorage on first render
+const initializeTheme = (): boolean => {
+  try {
+    const savedTheme = localStorage.getItem("chatTheme");
+    return savedTheme !== "light";
+  } catch {
+    return true;
+  }
+};
+
 export default function ChatBot() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>(initializeMessages);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDark, setIsDark] = useState(initializeTheme);
+  const reportInitializedRef = useRef(false);
 
-  useEffect(() => {
-    const savedMessages = localStorage.getItem("chatMessages");
-    if (savedMessages) {
+  // Generate formatted report prompt
+  const generatePrompt = useCallback(
+    (hotspot: RiskHotspotMapData): string => {
+      return `Generate a comprehensive environmental risk report for the following location:
+
+📍 **LOCATION DETAILS:**
+Location: ${hotspot.location}
+Country: ${hotspot.country || "Unknown"}
+Coordinates: ${hotspot.latitude.toFixed(4)}°N, ${hotspot.longitude.toFixed(4)}°E
+
+⚠️ **RISK ASSESSMENT:**
+Risk Level: ${hotspot.riskLevel}
+Risk Type: ${hotspot.riskType}
+Assessment Details: ${hotspot.riskReason}
+
+🌡️ **CURRENT ENVIRONMENTAL CONDITIONS:**
+Temperature: ${hotspot.temperature.toFixed(1)}°C
+Humidity: ${Math.round(hotspot.humidity)}%
+Rainfall: ${hotspot.precipitation.toFixed(1)} mm
+Wind Speed: ${hotspot.windSpeed.toFixed(1)} km/h
+Last Updated: ${new Date(hotspot.analyzedAt).toLocaleString()}
+
+Please provide a detailed and comprehensive environmental risk report that includes:
+1. Executive Summary of environmental risks at this location
+2. Current threat assessment and severity level
+3. Contributing environmental factors based on weather conditions
+4. Recommended immediate and long-term mitigation strategies
+5. Critical alerts and warnings for this location
+6. Population and infrastructure impact assessment
+7. Response recommendations and action plans
+8. Timeline of expected risk progression`;
+    },
+    []
+  );
+
+  // Handle sending messages
+  const handleSendMessage = useCallback(
+    async (content: string) => {
+      if (!content.trim()) return;
+
+      const userMessage: Message = {
+        id: Date.now().toString(),
+        role: "user",
+        content,
+      };
+
+      setMessages((prev) => [...prev, userMessage]);
+      setIsLoading(true);
+      setError(null);
+
       try {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setMessages(JSON.parse(savedMessages));
-      } catch (err) {
-        console.error("Failed to load chat history:", err);
-      }
-    }
-  }, []);
+        console.log("📤 Sending message to API...");
 
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            messages: [
+              ...messages,
+              { role: "user", content },
+            ],
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `API error: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const data = await response.json();
+        console.log("✅ API Response received");
+
+        if (!data.content) {
+          throw new Error("No content in API response");
+        }
+
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: "assistant",
+          content: data.content,
+        };
+
+        setMessages((prev) => [...prev, assistantMessage]);
+      } catch (err) {
+        const errorMessage =
+          err instanceof Error ? err.message : "An error occurred";
+
+        setError(errorMessage);
+        console.error("❌ Chat error:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [messages]
+  );
+
+  // Save messages when they change
   useEffect(() => {
     if (messages.length > 0) {
       localStorage.setItem("chatMessages", JSON.stringify(messages));
     }
   }, [messages]);
 
-  const handleSendMessage = async (content: string) => {
-    if (!content.trim()) return;
+  // Save theme preference
+  useEffect(() => {
+    localStorage.setItem("chatTheme", isDark ? "dark" : "light");
+  }, [isDark]);
 
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: "user",
-      content: content,
-    };
+  // Auto-generate report from hotspot data
+  useEffect(() => {
+    if (reportInitializedRef.current) return;
 
-    setMessages((prev) => [...prev, userMessage]);
-    setIsLoading(true);
-    setError(null);
+    const checkAndGenerateReport = async () => {
+      const reportHotspot = localStorage.getItem("reportHotspot");
 
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          messages: [
-            ...messages,
-            { role: "user", content },
-          ],
-        }),
-      });
+      if (reportHotspot) {
+        try {
+          const hotspot: RiskHotspotMapData = JSON.parse(reportHotspot);
+          console.log("✅ Hotspot data found:", hotspot.location);
 
-      if (!response.ok) {
-        throw new Error("Failed to get response from chatbot");
+          // Generate the report prompt
+          const prompt = generatePrompt(hotspot);
+
+          // Clear the stored data immediately
+          localStorage.removeItem("reportHotspot");
+
+          // Send the message
+          await handleSendMessage(prompt);
+        } catch (err) {
+          console.error("❌ Failed to parse hotspot data:", err);
+        }
       }
 
-      const data = await response.json();
+      reportInitializedRef.current = true;
+    };
 
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
-        content: data.content,
-      };
+    // Use setTimeout to ensure state is ready
+    const timer = setTimeout(checkAndGenerateReport, 300);
+    return () => clearTimeout(timer);
+  }, [generatePrompt, handleSendMessage]);
 
-      setMessages((prev) => [...prev, assistantMessage]);
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "An error occurred";
-      setError(errorMessage);
-      console.error("Chat error:", err);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Listen for quick question events
+  useEffect(() => {
+    const handleQuickQuestion = (event: Event) => {
+      const customEvent = event as CustomEvent<string>;
+      const question = customEvent.detail;
+      if (question) {
+        handleSendMessage(question);
+      }
+    };
 
-  const handleClearChat = () => {
-    if (confirm("Clear all messages? This action cannot be undone.")) {
-      setMessages([]);
-      localStorage.removeItem("chatMessages");
-      setError(null);
-    }
-  };
+    window.addEventListener("quickQuestion", handleQuickQuestion);
+    return () =>
+      window.removeEventListener("quickQuestion", handleQuickQuestion);
+  }, [handleSendMessage]);
 
   return (
-    <div 
-      className="flex flex-col h-screen bg-white"
+    <div
+      className="flex h-full min-h-0 flex-col overflow-hidden rounded-2xl border border-border bg-background text-foreground shadow-xl"
       role="application"
       aria-label="Environmental AI Assistant chatbot"
     >
-      <header 
-        className="border-b border-gray-300 px-6 py-6 bg-white"
-        role="banner"
-        aria-labelledby="chat-title"
-      >
-        <div className="mb-2">
-          <h2 
-            className="text-xs font-medium text-gray-500 uppercase tracking-wide"
-            aria-label="Section label"
-          >
-            AI Agent
-          </h2>
+      <header className="flex shrink-0 items-center gap-3 border-b border-border bg-card px-5 py-4">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary">
+          <ShieldAlert className="h-5 w-5 text-accent" />
         </div>
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 
-              className="text-4xl font-light text-black mb-2"
-              id="chat-title"
-            >
-              Environmental Assistant
-            </h1>
-            <p className="text-gray-600 max-w-2xl">
-              Ask our AI agent about environmental conditions, response
-              strategies, community impact, and data-driven insights
+
+        <div className="min-w-0">
+          <h2 className="text-base font-semibold text-foreground">
+            Agentic AI
+          </h2>
+
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-green-500" />
+            <p className="text-xs text-muted-foreground">
+              Environmental Intelligence Assistant
             </p>
           </div>
-          <button
-            onClick={handleClearChat}
-            className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            aria-label={`Clear chat history. Currently have ${messages.length} messages.`}
-          >
-            Clear
-          </button>
         </div>
       </header>
 
       {error && (
-        <div 
-          className="px-6 py-3 bg-red-50 border-b border-red-200 text-red-700 text-sm"
+        <div
+          className="shrink-0 border-b border-destructive/50 bg-destructive/10 px-5 py-3 text-sm text-destructive"
           role="alert"
           aria-live="assertive"
-          aria-label={`Error: ${error}`}
         >
           Error: {error}
         </div>
       )}
 
-      <ChatMessages 
-        messages={messages} 
-        isLoading={isLoading}
-      />
+      <main className="flex min-h-0 flex-1 flex-col">
+        <ChatMessages
+          messages={messages}
+          isLoading={isLoading}
+          isDark={isDark}
+        />
 
-      <ChatInput 
-        onSend={handleSendMessage} 
-        isLoading={isLoading}
-      />
+        <ChatInput
+          onSend={handleSendMessage}
+          isLoading={isLoading}
+          isDark={isDark}
+        />
+      </main>
     </div>
   );
 }

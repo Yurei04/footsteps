@@ -36,10 +36,9 @@ export function HotspotPopup({
       closeOnClick={false}
       focusAfterOpen={false}
       closeButton
-      className="w-72"
+      className="w-72 bg-none"
     >
       <div className="space-y-3 text-sm">
-        {/* Header */}
         <div className="border-b pb-2">
           <div className="flex items-start justify-between gap-2">
             <div className="flex-1">

@@ -162,9 +162,8 @@ export function CombinedNavigation({
 
       {/* Desktop Navigation */}
       <div className="hidden lg:flex min-h-screen">
-        {/* Sidebar */}
         <aside
-          className={`fixed left-0 top-0 h-screen bg-card border-r border-border transition-all duration-300 z-40 ${
+          className={`fixed left-0 top-0 h-screen bg-background border-r border-border transition-all duration-300 z-40 flex flex-col ${
             sidebarOpen ? "w-64" : "w-20"
           }`}
           role="complementary"
@@ -210,7 +209,6 @@ export function CombinedNavigation({
             )}
           </div>
 
-          {/* Sidebar Navigation */}
           <nav
             className="flex-1 overflow-y-auto px-2 py-4"
             role="navigation"
@@ -226,7 +224,7 @@ export function CombinedNavigation({
                       href={item.link}
                       className={`flex items-center gap-3 py-2.5 rounded-lg transition-colors text-sm font-medium ${
                         isActive
-                          ? "bg-primary text-primary-foreground"
+                          ? "bg-card text-primary"
                           : "text-foreground hover:bg-secondary"
                       } ${
                         sidebarOpen
@@ -238,7 +236,7 @@ export function CombinedNavigation({
                       <span
                         className={`flex-shrink-0 ${
                           isActive
-                            ? "text-primary-foreground"
+                            ? "text-primary"
                             : "text-muted-foreground"
                         }`}
                       >
@@ -258,20 +256,12 @@ export function CombinedNavigation({
           </nav>
 
           {/* Sidebar Collapse Button */}
-          <div className="border-t border-border p-2">
+          <div className="border-t border-border p-2 mt-auto">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="w-full flex items-center justify-center py-2 px-3 rounded-lg hover:bg-muted transition-colors text-muted-foreground"
-              aria-label={
-                sidebarOpen
-                  ? "Collapse sidebar"
-                  : "Expand sidebar"
-              }
-              title={
-                sidebarOpen
-                  ? "Collapse sidebar"
-                  : "Expand sidebar"
-              }
+              aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+              title={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
             >
               <ChevronLeft
                 className={`w-5 h-5 transition-transform ${
@@ -290,7 +280,7 @@ export function CombinedNavigation({
         >
           {/* Desktop Top Navigation */}
           <header
-            className="sticky top-0 flex items-center justify-between px-8 py-4 border-b border-border h-16 bg-card z-30"
+            className="sticky top-0 flex items-center justify-between px-8 py-4 border-b border-border h-16 bg-background z-30"
             role="banner"
             aria-label="Desktop navigation"
           >

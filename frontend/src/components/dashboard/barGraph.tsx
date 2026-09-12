@@ -19,7 +19,7 @@ export function BarGraph({
 }: BarGraphProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="h-80 flex items-center justify-center text-sm text-muted-foreground">
+      <div className="h-56 flex items-center justify-center text-sm text-muted-foreground">
         Historical data unavailable.
       </div>
     )
@@ -81,18 +81,18 @@ export function BarGraph({
   }
 
   return (
-    <div>
-      <div className="mb-6 rounded-lg bg-muted/50 border border-border p-4">
-        <p className="text-sm leading-6 text-foreground/80">
+    <div className="w-full overflow-hidden" >
+      <div className="mb-4 rounded-lg bg-card/50 border border-border p-3">
+        <p className="text-sm leading-5 text-foreground/80">
           {description}
         </p>
       </div>
 
       <div className="w-full overflow-x-auto">
-        <div className="min-w-[750px]">
-          <div className="flex h-80">
+        <div className="max-w-[600px]">
+          <div className="flex h-56">
             <div
-              className="w-14 flex flex-col justify-between text-xs text-muted-foreground pb-8 pr-2 text-right"
+              className="w-11 flex flex-col justify-between text-[10px] text-muted-foreground pb-7 pr-1.5 text-right"
               role="presentation"
             >
               <span aria-hidden="true">
@@ -139,9 +139,10 @@ export function BarGraph({
                 ))}
               </div>
 
-              <div className="absolute inset-0 flex items-end gap-0.5 px-2">
+              <div className="absolute inset-0 flex items-end gap-1 px-1.5">
                 {data.map((item, index) => {
                   const value = Number(item[dataKey] ?? 0)
+
                   const height =
                     ((value - minValue) / (maxValue - minValue)) * 100
 
@@ -152,12 +153,13 @@ export function BarGraph({
                       role="presentation"
                     >
                       <div
-                        className="absolute bottom-full left-1/2 z-30 mb-2 hidden -translate-x-1/2 group-hover:block"
+                        className="absolute bottom-full left-1/2 z-30 mb-1.5 hidden -translate-x-1/2 group-hover:block"
                         role="tooltip"
                       >
-                        <div className="rounded-lg bg-foreground text-background px-3 py-2 text-xs font-medium shadow-xl whitespace-nowrap">
+                        <div className="rounded-md bg-foreground text-background px-2 py-1.5 text-[10px] font-medium shadow-xl whitespace-nowrap">
                           <p>{formatDate(item.date)}</p>
-                          <p className="mt-1 opacity-80">
+
+                          <p className="mt-0.5 opacity-80">
                             {value.toFixed(1)}
                             {unit}
                           </p>
@@ -167,6 +169,7 @@ export function BarGraph({
                       <div
                         className={`
                           w-full
+                          max-w-5
                           rounded-t-sm
                           transition-all
                           duration-200
@@ -188,7 +191,7 @@ export function BarGraph({
           </div>
 
           <div
-            className="ml-14 flex justify-between px-2 mt-3 text-xs text-muted-foreground"
+            className="ml-11 flex justify-between px-1.5 mt-2 text-[10px] text-muted-foreground"
             aria-hidden="true"
           >
             <span>{formatDate(data[0].date)}</span>
@@ -203,7 +206,7 @@ export function BarGraph({
           </div>
 
           <p
-            className="mt-3 text-center text-xs text-muted-foreground"
+            className="mt-2 text-center text-[10px] text-muted-foreground"
             aria-hidden="true"
           >
             {unit}
@@ -212,12 +215,12 @@ export function BarGraph({
       </div>
 
       {type === 'temperature' && (
-        <div className="mt-6">
-          <p className="text-xs font-medium text-muted-foreground mb-3">
+        <div className="mt-4">
+          <p className="text-xs font-medium text-muted-foreground mb-2">
             Temperature Guide
           </p>
 
-          <div className="flex flex-wrap gap-3 text-xs">
+          <div className="flex flex-wrap gap-2 text-[10px]">
             <LegendItem color="bg-blue-500" label="<15°C (Cool)" />
             <LegendItem color="bg-cyan-500" label="15-20°C (Mild)" />
             <LegendItem
@@ -241,9 +244,9 @@ interface LegendItemProps {
 
 function LegendItem({ color, label }: LegendItemProps) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1.5">
       <span
-        className={`w-3 h-3 rounded-sm ${color}`}
+        className={`w-2.5 h-2.5 rounded-sm ${color}`}
         aria-hidden="true"
       />
       <span>{label}</span>
