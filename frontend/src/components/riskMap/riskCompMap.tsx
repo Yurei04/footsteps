@@ -155,14 +155,6 @@ export function HotspotMap({
         </div>
       )}
 
-      {/* No data message */}
-      {!loading && hotspots.length === 0 && !error && (
-        <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm z-10 pointer-events-none">
-          <div className="text-center">
-            <p className="text-muted-foreground">No hotspots available</p>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
