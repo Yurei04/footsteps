@@ -47,14 +47,29 @@ export default function ReportsBlock() {
     setTimeout(() => setSelectedReport(null), 300);
   };
 
-  const getCategoryColor = (category: string) => {
-    const colors: Record<string, string> = {
-      Weather: "bg-blue-100 text-blue-600",
-      News: "bg-orange-100 text-orange-600",
-      Location: "bg-green-100 text-green-600",
-      History: "bg-red-100 text-red-600",
+  const getCategoryColor = (category: string): { bg: string; text: string } => {
+    const colors: Record<string, { bg: string; text: string }> = {
+      Weather: {
+        bg: "bg-blue-900/20",
+        text: "text-primary",
+      },
+      News: {
+        bg: "bg-orange-900/20",
+        text: "text-accent",
+      },
+      Location: {
+        bg: "bg-cyan-900/20",
+        text: "text-primary",
+      },
+      History: {
+        bg: "bg-red-900/20",
+        text: "text-destructive",
+      },
     };
-    return colors[category] || "bg-gray-100 text-gray-600";
+    return colors[category] || {
+      bg: "bg-muted",
+      text: "text-muted-foreground",
+    };
   };
 
   const getIcon = (icon: string) => {
@@ -70,14 +85,14 @@ export default function ReportsBlock() {
   return (
     <>
       <div 
-        className="border border-gray-300 rounded-2xl p-6 bg-white"
+        className="border border-border rounded-[var(--radius)] p-6 bg-card text-card-foreground"
         role="region"
         aria-labelledby="reports-heading"
         aria-describedby="reports-description"
       >
         <div className="mb-6">
           <span 
-            className="text-xs font-medium text-gray-500 uppercase tracking-wide"
+            className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
             aria-label="Section label"
           >
             News Feed - Our Intelligence
@@ -85,7 +100,7 @@ export default function ReportsBlock() {
         </div>
 
         <h2 
-          className="text-2xl font-light text-black mb-6"
+          className="text-2xl font-light mb-6 text-card-foreground"
           id="reports-heading"
         >
           Location: National picture
@@ -105,7 +120,7 @@ export default function ReportsBlock() {
         >
           {loading ? (
             <div 
-              className="text-center py-8 text-gray-500"
+              className="text-center py-8 text-muted-foreground"
               role="status"
               aria-live="polite"
               aria-label="Loading reports"
@@ -114,7 +129,7 @@ export default function ReportsBlock() {
             </div>
           ) : error ? (
             <div 
-              className="text-center py-8 text-red-500"
+              className="text-center py-8 text-destructive"
               role="alert"
               aria-live="assertive"
             >
@@ -122,68 +137,69 @@ export default function ReportsBlock() {
             </div>
           ) : reports.length === 0 ? (
             <div 
-              className="text-center py-8 text-gray-500"
+              className="text-center py-8 text-muted-foreground"
               role="status"
               aria-live="polite"
             >
               No reports available
             </div>
           ) : (
-            reports.map((report) => (
-              <button
-                key={report.id}
-                onClick={() => handleOpenReport(report)}
-                className="w-full border border-gray-300 rounded-lg p-4 text-left hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                role="listitem"
-                aria-label={`${report.title}: ${report.category}. Click to view details.`}
-                aria-expanded={selectedReport?.id === report.id}
-              >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 pt-1">
-                    <span 
-                      className="text-lg text-gray-400"
-                      aria-hidden="true"
-                    >
-                      {getIcon(report.icon)}
-                    </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span
-                        className={`text-xs font-semibold px-2 py-1 rounded ${getCategoryColor(
-                          report.category
-                        )}`}
-                        aria-label={`Category: ${report.category}`}
+            reports.map((report) => {
+              const categoryColor = getCategoryColor(report.category);
+              return (
+                <button
+                  key={report.id}
+                  onClick={() => handleOpenReport(report)}
+                  className="w-full border border-border rounded-lg p-4 text-left transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-card-foreground hover:bg-muted"
+                  role="listitem"
+                  aria-label={`${report.title}: ${report.category}. Click to view details.`}
+                  aria-expanded={selectedReport?.id === report.id}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 pt-1">
+                      <span 
+                        className="text-lg text-muted-foreground"
+                        aria-hidden="true"
                       >
-                        {report.category}
+                        {getIcon(report.icon)}
                       </span>
                     </div>
-                    <p className="text-sm font-medium text-black">
-                      {report.title}
-                    </p>
-                    <p 
-                      className="text-xs text-gray-500 mt-1"
-                      aria-label={`Time: ${report.timestamp}`}
-                    >
-                      {report.timestamp}
-                    </p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span
+                          className={`text-xs font-semibold px-2 py-1 rounded ${categoryColor.bg} ${categoryColor.text}`}
+                          aria-label={`Category: ${report.category}`}
+                        >
+                          {report.category}
+                        </span>
+                      </div>
+                      <p className="text-sm font-medium text-card-foreground">
+                        {report.title}
+                      </p>
+                      <p 
+                        className="text-xs mt-1 text-muted-foreground"
+                        aria-label={`Time: ${report.timestamp}`}
+                      >
+                        {report.timestamp}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </button>
-            ))
+                </button>
+              );
+            })
           )}
         </div>
       </div>
 
       {isDialogOpen && selectedReport && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/50"
           onClick={handleCloseDialog}
           role="presentation"
           aria-hidden="false"
         >
           <div
-            className="bg-white rounded-2xl p-8 max-w-2xl w-full shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-[var(--radius)] p-8 max-w-2xl w-full shadow-lg focus:outline-none focus:ring-2 focus:ring-ring bg-card text-card-foreground"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-labelledby="dialog-title"
@@ -192,16 +208,23 @@ export default function ReportsBlock() {
           >
             <div className="flex items-start justify-between mb-6">
               <div>
-                <span
-                  className={`text-xs font-semibold px-3 py-1 rounded mb-3 inline-block ${getCategoryColor(
-                    selectedReport.category
-                  )}`}
-                  aria-label={`Category: ${selectedReport.category}`}
-                >
-                  {selectedReport.category}
-                </span>
+                {selectedReport && (
+                  <>
+                    {(() => {
+                      const categoryColor = getCategoryColor(selectedReport.category);
+                      return (
+                        <span
+                          className={`text-xs font-semibold px-3 py-1 rounded mb-3 inline-block ${categoryColor.bg} ${categoryColor.text}`}
+                          aria-label={`Category: ${selectedReport.category}`}
+                        >
+                          {selectedReport.category}
+                        </span>
+                      );
+                    })()}
+                  </>
+                )}
                 <h2 
-                  className="text-2xl font-light text-black mt-2"
+                  className="text-2xl font-light mt-2 text-card-foreground"
                   id="dialog-title"
                 >
                   {selectedReport.title}
@@ -209,7 +232,7 @@ export default function ReportsBlock() {
               </div>
               <button
                 onClick={handleCloseDialog}
-                className="text-gray-400 hover:text-black text-2xl leading-none p-2 hover:bg-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="text-2xl leading-none p-2 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-ring text-muted-foreground hover:bg-muted hover:text-card-foreground"
                 aria-label="Close dialog"
                 aria-pressed="false"
               >
@@ -222,34 +245,40 @@ export default function ReportsBlock() {
               id="dialog-description"
             >
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">
+                <h3 
+                  className="text-sm font-semibold uppercase tracking-wide mb-2 text-muted-foreground"
+                >
                   Description
                 </h3>
-                <p className="text-base text-gray-700">
+                <p className="text-base text-card-foreground">
                   {selectedReport.description}
                 </p>
               </div>
 
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2">
+                <h3 
+                  className="text-sm font-semibold uppercase tracking-wide mb-2 text-muted-foreground"
+                >
                   Details
                 </h3>
-                <p className="text-base text-gray-700">
+                <p className="text-base text-card-foreground">
                   {selectedReport.details}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-6 border-t border-gray-200">
+            <div 
+              className="flex items-center justify-between pt-6 border-t border-border"
+            >
               <span 
-                className="text-xs text-gray-500"
+                className="text-xs text-muted-foreground"
                 aria-label={`Report timestamp: ${selectedReport.timestamp}`}
               >
                 {selectedReport.timestamp}
               </span>
               <button
                 onClick={handleCloseDialog}
-                className="px-6 py-2 border border-gray-300 rounded-lg text-black font-medium text-sm hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-6 py-2 border border-border rounded-lg font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring text-card-foreground hover:bg-muted"
                 aria-label="Close report details"
               >
                 Close

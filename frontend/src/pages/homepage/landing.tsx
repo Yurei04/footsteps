@@ -1,5 +1,6 @@
 // Landing.tsx (PAGE - NO "use client" needed!)
 import GreenBlock from "@/components/homepage/greenBlock"
+import { ThemeToggle } from "@/components/theme/theme-toggle"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import Image from "next/image"
@@ -36,21 +37,24 @@ export default async function Landing() {
             Earth Forward
           </h1>
         </div>
-        <Link 
-          href={"/riskMap"} 
-          aria-label="Explore the environmental system"
-        >
-          <Button 
-            className="group relative cursor-pointer px-8 py-2 text-primary-foreground overflow-hidden bg-primary hover:bg-opacity-90 border border-primary transition-all duration-300"
-            aria-label="Explore the system button"
+        <div className="flex justify-end gap-4">
+          <ThemeToggle />
+          <Link 
+            href={"/riskMap"} 
+            aria-label="Explore the environmental system"
           >
-            Open System 
-            <ArrowRight 
-              className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
-              aria-hidden="true"
-            />
-          </Button>
-        </Link>
+            <Button 
+              className="group relative cursor-pointer px-8 py-2 text-primary-foreground overflow-hidden bg-primary hover:bg-opacity-90 border border-primary transition-all duration-300"
+              aria-label="Explore the system button"
+            >
+              Open System 
+              <ArrowRight 
+                className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
+                aria-hidden="true"
+              />
+            </Button>
+          </Link>
+        </div>
       </header>
 
       <main 

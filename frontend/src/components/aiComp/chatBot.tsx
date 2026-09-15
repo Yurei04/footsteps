@@ -61,32 +61,32 @@ export default function ChatBot() {
     (hotspot: RiskHotspotMapData): string => {
       return `Generate a comprehensive environmental risk report for the following location:
 
-📍 **LOCATION DETAILS:**
-Location: ${hotspot.location}
-Country: ${hotspot.country || "Unknown"}
-Coordinates: ${hotspot.latitude.toFixed(4)}°N, ${hotspot.longitude.toFixed(4)}°E
+      📍 **LOCATION DETAILS:**
+      Location: ${hotspot.location}
+      Country: ${hotspot.country || "Unknown"}
+      Coordinates: ${hotspot.latitude.toFixed(4)}°N, ${hotspot.longitude.toFixed(4)}°E
 
-⚠️ **RISK ASSESSMENT:**
-Risk Level: ${hotspot.riskLevel}
-Risk Type: ${hotspot.riskType}
-Assessment Details: ${hotspot.riskReason}
+      ⚠️ **RISK ASSESSMENT:**
+      Risk Level: ${hotspot.riskLevel}
+      Risk Type: ${hotspot.riskType}
+      Assessment Details: ${hotspot.riskReason}
 
-🌡️ **CURRENT ENVIRONMENTAL CONDITIONS:**
-Temperature: ${hotspot.temperature.toFixed(1)}°C
-Humidity: ${Math.round(hotspot.humidity)}%
-Rainfall: ${hotspot.precipitation.toFixed(1)} mm
-Wind Speed: ${hotspot.windSpeed.toFixed(1)} km/h
-Last Updated: ${new Date(hotspot.analyzedAt).toLocaleString()}
+      🌡️ **CURRENT ENVIRONMENTAL CONDITIONS:**
+      Temperature: ${hotspot.temperature.toFixed(1)}°C
+      Humidity: ${Math.round(hotspot.humidity)}%
+      Rainfall: ${hotspot.precipitation.toFixed(1)} mm
+      Wind Speed: ${hotspot.windSpeed.toFixed(1)} km/h
+      Last Updated: ${new Date(hotspot.analyzedAt).toLocaleString()}
 
-Please provide a detailed and comprehensive environmental risk report that includes:
-1. Executive Summary of environmental risks at this location
-2. Current threat assessment and severity level
-3. Contributing environmental factors based on weather conditions
-4. Recommended immediate and long-term mitigation strategies
-5. Critical alerts and warnings for this location
-6. Population and infrastructure impact assessment
-7. Response recommendations and action plans
-8. Timeline of expected risk progression`;
+      Please provide a detailed and comprehensive environmental risk report that includes:
+      1. Executive Summary of environmental risks at this location
+      2. Current threat assessment and severity level
+      3. Contributing environmental factors based on weather conditions
+      4. Recommended immediate and long-term mitigation strategies
+      5. Critical alerts and warnings for this location
+      6. Population and infrastructure impact assessment
+      7. Response recommendations and action plans
+      8. Timeline of expected risk progression`;
     },
     []
   );

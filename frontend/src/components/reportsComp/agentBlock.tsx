@@ -31,14 +31,14 @@ export default function AgentBlock() {
 
   return (
     <div 
-      className="border border-gray-300 rounded-2xl p-6 bg-white w-full max-w-sm"
+      className="border border-border rounded-2xl p-6 w-full max-w-sm bg-card text-card-foreground"
       role="region"
       aria-labelledby="agent-heading"
       aria-describedby="agent-description"
     >
       <div className="mb-6">
         <span 
-          className="text-xs font-medium text-gray-500 uppercase tracking-wide"
+          className="text-xs font-medium uppercase tracking-wide text-muted-foreground"
           aria-label="Section label"
         >
           Agent Status
@@ -47,7 +47,7 @@ export default function AgentBlock() {
 
       <div className="mb-8">
         <h3 
-          className="text-2xl font-light text-black mb-6"
+          className="text-2xl font-light mb-6 text-card-foreground"
           id="agent-heading"
         >
           Collection in progress
@@ -61,7 +61,7 @@ export default function AgentBlock() {
         </p>
 
         <div 
-          className="bg-gray-100 rounded-lg p-6 mb-6 min-h-40 flex flex-col items-center justify-center"
+          className="rounded-lg p-6 mb-6 min-h-40 flex flex-col items-center justify-center bg-muted"
           role="region"
           aria-label="Progress indicator"
         >
@@ -76,21 +76,24 @@ export default function AgentBlock() {
                 cx="50"
                 cy="50"
                 r="45"
-                stroke="#e5e7eb"
+                stroke="currentColor"
                 strokeWidth="2"
                 fill="none"
+                opacity="0.3"
+                className="text-muted-foreground"
               />
               <circle
                 cx="50"
                 cy="50"
                 r="45"
-                stroke="#000"
+                stroke="currentColor"
                 strokeWidth="2"
                 fill="none"
                 strokeDasharray={`${2 * Math.PI * 45}`}
                 strokeDashoffset={`${2 * Math.PI * 45 * (1 - progress / 100)}`}
                 strokeLinecap="round"
                 style={{ transition: "stroke-dashoffset 0.3s ease" }}
+                className="text-ring"
               />
             </svg>
             <div 
@@ -98,7 +101,7 @@ export default function AgentBlock() {
               aria-hidden="false"
             >
               <span 
-                className="text-sm font-medium text-black"
+                className="text-sm font-medium text-card-foreground"
                 aria-live="polite"
                 aria-atomic="true"
                 role="status"
@@ -111,7 +114,7 @@ export default function AgentBlock() {
           </div>
 
           <p 
-            className="text-sm text-gray-600"
+            className="text-sm text-muted-foreground"
             role="status"
             aria-live="polite"
             aria-atomic="true"
@@ -134,7 +137,7 @@ export default function AgentBlock() {
 
       <button
         onClick={handleRefresh}
-        className="w-full py-3 px-4 border border-gray-300 rounded-lg text-black font-medium text-sm hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        className="w-full py-3 px-4 border border-border rounded-lg font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-card-foreground hover:bg-muted"
         aria-label={`Refresh data collection. Currently at ${progressRounded}% complete.`}
         aria-pressed="false"
       >

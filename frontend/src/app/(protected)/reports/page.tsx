@@ -1,11 +1,10 @@
-
 import AgentBlock from "@/components/reportsComp/agentBlock";
 import ReportsBlock from "@/components/reportsComp/reportsBlock";
 
 export default function Reports() {
   return (
     <div 
-      className="w-full min-h-screen bg-white"
+      className="w-full min-h-screen bg-background text-foreground"
       role="application"
       aria-label="News and insights reports application"
     >
@@ -14,19 +13,19 @@ export default function Reports() {
         aria-describedby="reports-description"
       >
         <p 
-          className="font-thin text-md text-gray-500 uppercase tracking-widest"
+          className="font-thin text-md uppercase tracking-widest text-muted-foreground"
           aria-label="Page section"
         >
           NEWS & INSIGHTS
         </p>
         <h1 
-          className="text-4xl text-black mt-2"
+          className="text-4xl mt-2 text-foreground"
           id="page-title"
         >
           The local story, live.
         </h1>
         <p 
-          className="text-gray-700 mt-3 max-w-2xl"
+          className="mt-3 max-w-2xl text-foreground"
           id="reports-description"
         >
           National and local signals matched to active conditions. Curated

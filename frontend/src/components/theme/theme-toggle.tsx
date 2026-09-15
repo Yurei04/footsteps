@@ -14,7 +14,7 @@ export function ThemeToggle() {
       onClick={() => {
         setTheme(resolvedTheme === "light" ? "dark" : "light")
       }}
-      className="rounded-lg"
+      className="rounded-lg border border-border p-2"
       aria-label={`Switch to ${resolvedTheme === "light" ? "dark" : "light"} theme`}
     >
       {resolvedTheme === "light" ? (
