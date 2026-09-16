@@ -296,15 +296,6 @@ export function CombinedNavigation({
               aria-label="User actions"
             >
               <ThemeToggle />
-
-              <Button
-                variant="ghost"
-                size="sm"
-                aria-label="Ask AI"
-              >
-                Ask AI
-              </Button>
-
               <div
                 className="w-10 h-10 rounded-full flex items-center justify-center border border-border overflow-hidden"
                 role="img"
