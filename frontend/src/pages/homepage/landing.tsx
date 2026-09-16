@@ -29,6 +29,7 @@ export default async function Landing() {
                 alt="Earth Forward logo"
                 width={50}
                 height={50}
+                className="rounded-4xl"
                 priority
               />
             </Link>

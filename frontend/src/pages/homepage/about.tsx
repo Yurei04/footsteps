@@ -44,7 +44,7 @@ const data: CardsData[] = [
 export default function AboutPage() {
   return (
     <main
-      className="min-h-screen w-full flex flex-col px-4 sm:px-6 md:px-10 lg:px-12 py-8 sm:py-10 md:py-12 gap-8 sm:gap-10 md:gap-12 bg-background"
+      className="min-h-screen w-full flex flex-col px-4 sm:px-6 md:px-10 lg:px-12 py-8 sm:py-10 md:py-12 gap-8 sm:gap-10 md:gap-12 bg-card/30 border border-border"
       aria-label="About page - Eight Connected Capabilities"
       role="main"
     >
