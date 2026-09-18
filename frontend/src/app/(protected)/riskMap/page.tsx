@@ -36,12 +36,6 @@ export default function RiskMap() {
         >
           Flood & Heavy Rainfall
         </h1>
-        <p 
-          className="line-clamp-3 text-muted-foreground"
-          id="page-description"
-        >
-          Risk hotspots combine forecast intensity, ground saturation, exposure, and documented historical impacts.
-        </p>
       </header>
       <Separator />
       <main 
